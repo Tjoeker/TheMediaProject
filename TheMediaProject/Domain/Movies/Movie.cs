@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Movie
+namespace TheMediaProject.Domain.Movies
 {
     public class Movie
     {
@@ -16,5 +16,6 @@ namespace TheMediaProject.Domain.Movie
         public ICollection<CrewMember> CrewMembers { get; set; }
         public TimeSpan PlayTime { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

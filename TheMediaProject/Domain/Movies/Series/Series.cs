@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Movie.Series
+namespace TheMediaProject.Domain.Movies.Series
 {
-    public class Episode
+    public class Series
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public TimeSpan PlayTime { get; set; }
-        public int SeasonId { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public ICollection<CrewMember> CrewMembers { get; set; }
+        public ICollection<Season> Seasons { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

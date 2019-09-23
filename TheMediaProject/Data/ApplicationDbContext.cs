@@ -4,10 +4,10 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Server;
-using TheMediaProject.Domain.Movie;
-using TheMediaProject.Domain.Movie.Series;
+using TheMediaProject.Domain.Movies;
+using TheMediaProject.Domain.Movies.Series;
 using TheMediaProject.Domain.Music;
-using TheMediaProject.Domain.Podcast;
+using TheMediaProject.Domain.Podcasts;
 
 namespace TheMediaProject.Data
 {
@@ -21,7 +21,7 @@ namespace TheMediaProject.Data
         public DbSet<CrewMember> CrewMembers { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
         public DbSet<MovieGenreMovie> MovieGenreMovies { get; set; }
-        public DbSet<MovieCrewMember> MovieActors { get; set; }
+        public DbSet<MovieCrewMember> MovieCrewMember { get; set; }
         public DbSet<Movie> Movies { get; set; }
 
         public DbSet<Episode> Episodes { get; set; }

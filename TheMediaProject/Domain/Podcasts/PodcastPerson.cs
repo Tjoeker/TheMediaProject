@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Movie
+namespace TheMediaProject.Domain.Podcasts
 {
-    public class MovieGenre
+    public class PodcastPerson
     {
         public int Id { get; set; }
         public string Name { get; set; }

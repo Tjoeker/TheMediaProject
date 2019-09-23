@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Podcast
+namespace TheMediaProject.Domain.Podcasts
 {
     public class Podcast
     {
@@ -12,5 +12,6 @@ namespace TheMediaProject.Domain.Podcast
         public ICollection<PodcastPerson> PodcastPeople { get; set; }
         public PodcastGenre Genre { get; set; }
         public PodcastFormat Format { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Music
+namespace TheMediaProject.Models.Movie
 {
-    public class Album
+    public class MovieIndexViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public Artist AlbumArtist { get; set; }
-        public ICollection<Song> Songs { get; set; }
         public byte[] Photo { get; set; }
-        public int GenreId { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public TimeSpan PlayTime { get; set; }
+        public string Genre { get; set; }
     }
 }

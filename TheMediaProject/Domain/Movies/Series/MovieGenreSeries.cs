@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Movie
+namespace TheMediaProject.Domain.Movies.Series
 {
-    public class MovieGenreMovie
+    public class MovieGenreSeries
     {
-        public int MovieId { get; set; }
         public int MovieGenreId { get; set; }
+        public int SerieId { get; set; }
     }
 }
