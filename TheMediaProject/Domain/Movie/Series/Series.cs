@@ -10,8 +10,7 @@ namespace TheMediaProject.Domain.Movie.Series
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public ICollection<CrewMember> Actors { get; set; }
-        public ICollection<CrewMember> Director { get; set; }
+        public ICollection<CrewMember> CrewMembers { get; set; }
         public ICollection<Season> Seasons { get; set; }
     }
 }

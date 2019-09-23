@@ -27,8 +27,7 @@ namespace TheMediaProject.Data
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Series> Series { get; set; }
-        public DbSet<SeriesActor> SeriesActors { get; set; }
-        public DbSet<SeriesDirector> SeriesDirectors { get; set; }
+        public DbSet<SeriesCrewMember> SeriesActors { get; set; }
 
         public DbSet<Album> Albums { get; set; }
         public DbSet<Artist> Artists { get; set; }
@@ -44,6 +43,12 @@ namespace TheMediaProject.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<MovieCrewMember>().HasKey(k => new { k.CrewMemberId, k.MovieId });
+            builder.Entity<MovieGenreMovie>().HasKey(k => new { k.MovieGenreId, k.MovieId });
+            builder.Entity<SongArtist>().HasKey(k => new { k.ArtistId, k.SongId });
+            builder.Entity<PodcastPersonPodcast>().HasKey(k => new { k.PodcastId, k.PodcastPersonId });
+            builder.Entity<SeriesCrewMember>().HasKey(k => new { k.CrewMemberId, k.MovieId });
+
             builder.Entity<MovieGenre>().HasData(
                 new MovieGenre { Id = 1, Name = "Absurdist"},
                 new MovieGenre { Id =2, Name="Action"},

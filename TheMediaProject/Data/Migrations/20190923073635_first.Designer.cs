@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheMediaProject.Data;
 
 namespace TheMediaProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190923073635_first")]
+    partial class first
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,15 +194,23 @@ namespace TheMediaProject.Data.Migrations
 
                     b.Property<int?>("MovieId");
 
+                    b.Property<int?>("MovieId1");
+
                     b.Property<string>("Name");
 
                     b.Property<int?>("SeriesId");
+
+                    b.Property<int?>("SeriesId1");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MovieId");
 
+                    b.HasIndex("MovieId1");
+
                     b.HasIndex("SeriesId");
+
+                    b.HasIndex("SeriesId1");
 
                     b.ToTable("CrewMembers");
                 });
@@ -619,12 +629,20 @@ namespace TheMediaProject.Data.Migrations
             modelBuilder.Entity("TheMediaProject.Domain.Movie.CrewMember", b =>
                 {
                     b.HasOne("TheMediaProject.Domain.Movie.Movie")
-                        .WithMany("CrewMembers")
+                        .WithMany("Actors")
                         .HasForeignKey("MovieId");
 
+                    b.HasOne("TheMediaProject.Domain.Movie.Movie")
+                        .WithMany("Director")
+                        .HasForeignKey("MovieId1");
+
                     b.HasOne("TheMediaProject.Domain.Movie.Series.Series")
-                        .WithMany("CrewMembers")
+                        .WithMany("Actors")
                         .HasForeignKey("SeriesId");
+
+                    b.HasOne("TheMediaProject.Domain.Movie.Series.Series")
+                        .WithMany("Director")
+                        .HasForeignKey("SeriesId1");
                 });
 
             modelBuilder.Entity("TheMediaProject.Domain.Movie.Series.Episode", b =>
