@@ -27,7 +27,7 @@ namespace TheMediaProject.Data
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Series> Series { get; set; }
-        public DbSet<SeriesCrewMember> SeriesActors { get; set; }
+        public DbSet<SeriesCrewMember> SeriesCrewMembers { get; set; }
 
         public DbSet<Album> Albums { get; set; }
         public DbSet<Artist> Artists { get; set; }
