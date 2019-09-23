@@ -52,6 +52,7 @@ namespace TheMediaProject.Controllers.Movies
                     ReleaseDate = movie.ReleaseDate,
                     PlayTime = movie.PlayTime,
                     Genre = genreName,
+                    Description = movie.Description,
                     Photo = movie.Photo
                 });
 
