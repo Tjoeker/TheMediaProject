@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TheMediaProject.Models.Movies
 {
-    public class MovieIndexViewModel
+    public class MovieGenreViewModel
     {
-        public List<MovieListItemViewModel> MovieListItems { get; set; } = new List<MovieListItemViewModel>();
+        public string Name { get; set; }
     }
 }

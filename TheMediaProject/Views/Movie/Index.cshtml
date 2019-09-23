@@ -1,0 +1,20 @@
+﻿@model TheMediaProject.Models.Movies.MovieIndexViewModel
+
+<h2>Movielist</h2>
+@if (Model.MovieListItems.Count > 0)
+{
+    @foreach (var movie in Model.MovieListItems)
+    {
+        <h3>@movie.Title (@movie.ReleaseDate.Year) - @movie.PlayTime.Hours:@movie.PlayTime.Minutes </h3>
+        <p>
+            @foreach (var genre in movie.Genre)
+            {
+                @genre
+            }
+    </p>
+    }
+}
+else
+{
+    <p>Er zijn geen films beschikbaar.</p>
+}
