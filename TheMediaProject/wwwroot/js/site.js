@@ -1,4 +1,25 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function AddActor() {
+    var actorlist = document.getElementById("actorslist").value;
+    if (actorlist != "") {
+        actorlist = actorlist + ", " + document.getElementById("actorsinput").value;
+    }
+    else {
+        actorlist = document.getElementById("actorsinput").value;
+    }
 
-// Write your JavaScript code.
+    document.getElementById("actorslist").value = actorlist;
+    document.getElementById("actorsinput").value = "";
+}
+
+function AddDirector() {
+    var directorlist = document.getElementById("directorslist").value;
+    if (directorlist != "") {
+        directorlist = directorlist + ", " + document.getElementById("directorsinput").value;
+    }
+    else {
+        directorlist = document.getElementById("directorsinput").value;
+    }
+
+    document.getElementById("directorslist").value = directorlist;
+    document.getElementById("directorsinput").value = "";
+}

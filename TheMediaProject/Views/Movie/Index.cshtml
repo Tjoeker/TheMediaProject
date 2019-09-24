@@ -1,5 +1,7 @@
 ﻿@model TheMediaProject.Models.Movies.MovieIndexViewModel
 
+<a asp-action="Create">Create New Movie</a>
+
 <h2>Movielist</h2>
 @if (Model.MovieListItems.Count > 0)
 {
@@ -7,10 +9,10 @@
     {
         <h3>@movie.Title (@movie.ReleaseDate.Year) - @movie.PlayTime.Hours:@movie.PlayTime.Minutes </h3>
         <p>
-            @foreach (var genre in movie.Genre)
+            @*@foreach (var genre in movie.Genre)
             {
                 @genre
-            }
+            }*@
     </p>
     }
 }

@@ -12,8 +12,7 @@ namespace TheMediaProject.Domain.Movies
         public string Title { get; set; }
         public string Description { get; set; }
         [NotMapped]
-        public ICollection<MovieGenre> Genre { get; set; }
-        public ICollection<CrewMember> CrewMembers { get; set; }
+        public ICollection<int> GenreId { get; set; }
         public TimeSpan PlayTime { get; set; }
         public DateTime ReleaseDate { get; set; }
         public byte[] Photo { get; set; }

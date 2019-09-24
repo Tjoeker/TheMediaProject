@@ -1,0 +1,56 @@
+﻿@model TheMediaProject.Models.Movies.MovieCreateViewModel
+
+    <form asp-controller="Movie" asp-action="Create" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title" />
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PlayTimeHours"></label>
+            <input class="form-control" asp-for="PlayTimeHours" />
+            <span class="text-danger" asp-validation-for="PlayTimeHours"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PlayTimeMinutes"></label>
+            <input class="form-control" asp-for="PlayTimeMinutes" />
+            <span class="text-danger" asp-validation-for="PlayTimeMinutes"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReleaseDate"></label>
+            <input class="form-control" asp-for="ReleaseDate" type="date" placeholder="DD/MM/YYYY" />
+            <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input class="form-control" asp-for="Description" />
+            <span class="text-danger" asp-validation-for="Description"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Actors"></label>
+            <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="actorlist" name="Actors" asp-for="Actors" />
+            <datalist id="actorlist">
+                @foreach (var name in Model.artistNames)
+                {
+                    <option value="@name">@name</option>
+                }
+
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Directors"></label>
+            <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="directorlist" name="Directors" asp-for="Directors" />
+            <datalist id="directorlist">
+                @foreach (var name in Model.artistNames)
+                {
+                    <option value="@name">@name</option>
+                }
+
+            </datalist>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Create Movie</button>
+    </form>
