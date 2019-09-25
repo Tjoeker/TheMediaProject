@@ -3,20 +3,36 @@
 <a asp-action="Create">Create New Movie</a>
 
 <h2>Movielist</h2>
-@if (Model.MovieListItems.Count > 0)
-{
-    @foreach (var movie in Model.MovieListItems)
+
+<table>
+    @if (Model.MovieListItems.Count > 0)
     {
-        <h3>@movie.Title (@movie.ReleaseDate.Year) - @movie.PlayTime.Hours:@movie.PlayTime.Minutes </h3>
-        <p>
-            @*@foreach (var genre in movie.Genre)
-            {
-                @genre
-            }*@
-    </p>
+        @foreach (var movie in Model.MovieListItems)
+        {
+            <tr>
+                <td>
+                    <h3><a asp-action="View" asp-controller="Movie" asp-route-id="@movie.Id">@movie.Title (@movie.ReleaseDate.Year)</a>  - @movie.PlayTime.Hours:@movie.PlayTime.Minutes </h3>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-controller="Movie" asp-route-id="@movie.Id">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @foreach (var genre in movie.Genre)
+                    {
+                        @genre
+                    }
+                </td>
+            </tr>
+            <p>
+                
+            </p>
+        }
     }
-}
-else
-{
-    <p>Er zijn geen films beschikbaar.</p>
-}
+    else
+    {
+        <p>Er zijn geen films beschikbaar.</p>
+    }
+</table>
+

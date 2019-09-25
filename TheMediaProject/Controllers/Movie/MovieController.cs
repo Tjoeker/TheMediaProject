@@ -29,21 +29,27 @@ namespace TheMediaProject.Controllers.Movies
         {
             MovieIndexViewModel model = new MovieIndexViewModel();
 
-            IEnumerable<Movie> movies = _database.Movies/*.Include(a => a.Genre)*/.ToList();
+            IEnumerable<Movie> movies = _database.Movies.ToList();
+            IEnumerable<MovieGenreMovie> movieGenreMoviesFromDatabase = _database.MovieGenreMovies.ToList();
+            List<MovieGenreMovie> movieGenreMovies = new List<MovieGenreMovie>();
             
 
-            List<MovieGenre> genres = _database.MovieGenres.ToList();
-
+            List<MovieGenre> genresFromDatabase = _database.MovieGenres.ToList();
+            
+            
 
             foreach (var movie in movies)
             {
-                //List<string> genreName = new List<string>();
-                //foreach (var genre in movie.GenreId)
-                //{
-                //    MovieGenre item = genres.FirstOrDefault(a => a.Id == genre);
-                //    genreName.Add(item.Name);
+                List<string> genres = new List<string>();
+                movieGenreMovies = movieGenreMoviesFromDatabase.Where(a => a.MovieId == movie.Id).ToList();
 
-                //}
+                genres.Clear();
+                if(movieGenreMovies != null)
+                foreach(var genreId in movieGenreMovies)
+                {
+                    MovieGenre genre = genresFromDatabase.FirstOrDefault(a => a.Id == genreId.MovieGenreId);
+                    genres.Add(genre.Name);
+                }
 
                 model.MovieListItems.Add(new MovieListItemViewModel
                 {
@@ -51,7 +57,7 @@ namespace TheMediaProject.Controllers.Movies
                     Title = movie.Title,
                     ReleaseDate = movie.ReleaseDate,
                     PlayTime = movie.PlayTime,
-                    //Genre = genreName,
+                    Genre = genres,
                     Description = movie.Description,
                     Photo = movie.Photo
                 });
@@ -108,71 +114,140 @@ namespace TheMediaProject.Controllers.Movies
             _database.Movies.Add(movie);
             _database.SaveChanges();
 
-            string[] genres = model.Genre.Split(",");
-
-            foreach (var genre in genres)
+            if(model.Genre != null)
             {
-                MovieGenre movieGenre = _database.MovieGenres.FirstOrDefault(a => a.Name == genre);
-                _database.MovieGenreMovies.Add(new MovieGenreMovie { MovieGenreId = movieGenre.Id, MovieId = movie.Id });
+                string[] genres = model.Genre.Split(",");
+
+                foreach (var genre in genres)
+                {
+                    MovieGenre movieGenre = _database.MovieGenres.FirstOrDefault(a => a.Name == genre);
+                    _database.MovieGenreMovies.Add(new MovieGenreMovie { MovieGenreId = movieGenre.Id, MovieId = movie.Id });
+                }
             }
+            
 
             _database.SaveChanges();
 
-            string[] actors = model.Actors.Split(",");
-
-            foreach (var Actor in actors)
+            if(model.Actors != null)
             {
-                CrewMember crewMember = new CrewMember();
-                if (!_database.CrewMembers.Any(a => a.Name == Actor))
+                string[] actors = model.Actors.Split(",");
+
+                foreach (var Actor in actors)
                 {
-                     crewMember.Name = Actor;
-                    _database.CrewMembers.Add(crewMember);
+                    CrewMember crewMember = new CrewMember();
+                    if (!_database.CrewMembers.Any(a => a.Name == Actor))
+                    {
+                        crewMember.Name = Actor;
+                        _database.CrewMembers.Add(crewMember);
+                        _database.SaveChanges();
+                    }
+                    else
+                    {
+                        crewMember = _database.CrewMembers.FirstOrDefault(a => a.Name == Actor);
+                    }
+
                     _database.SaveChanges();
+
+                    MovieCrewMember movieCrewMember = new MovieCrewMember()
+                    {
+                        MovieId = movie.Id,
+                        CrewMemberId = crewMember.Id,
+                        MemberRole = MovieCrewMember.Role.Actor
+                    };
+
+                    _database.MovieCrewMember.Add(movieCrewMember);
+
                 }
-                else
+            }
+            
+            if(model.Directors != null)
+            {
+                string[] directors = model.Directors.Split(",");
+
+                foreach (var Director in directors)
                 {
-                    crewMember = _database.CrewMembers.FirstOrDefault(a => a.Name == Actor);
+                    CrewMember crewMember = new CrewMember();
+                    if (!_database.CrewMembers.Any(a => a.Name == Director))
+                    {
+                        crewMember.Name = Director;
+                        _database.CrewMembers.Add(crewMember);
+                        _database.SaveChanges();
+                    }
+                    else
+                    {
+                        crewMember = _database.CrewMembers.FirstOrDefault(a => a.Name == Director);
+                    }
+
+
+                    MovieCrewMember movieCrewMember = new MovieCrewMember()
+                    {
+                        MovieId = movie.Id,
+                        CrewMemberId = crewMember.Id,
+                        MemberRole = MovieCrewMember.Role.Director
+                    };
+
+                    _database.MovieCrewMember.Add(movieCrewMember);
                 }
+            }
+            
 
-                _database.SaveChanges();
+            _database.SaveChanges();
 
-                MovieCrewMember movieCrewMember = new MovieCrewMember()
-                {
-                    MovieId = movie.Id,
-                    CrewMemberId = crewMember.Id,
-                    MemberRole = MovieCrewMember.Role.Actor
-                };
+            return RedirectToAction("Index");
+        }
 
-                _database.MovieCrewMember.Add(movieCrewMember);
-                
+        public IActionResult View(int id)
+        {
+            
+
+            Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
+
+            List<MovieGenreMovie> movieGenreMovie = _database.MovieGenreMovies.Where(a => a.MovieId == id).ToList();
+            List<MovieGenre> movieGenre = _database.MovieGenres.Where(a => movieGenreMovie.Any(b => b.MovieGenreId == a.Id)).ToList();
+            List<MovieGenreViewModel> genreViewModels = new List<MovieGenreViewModel>();
+
+            foreach(var item in movieGenre)
+            {
+                genreViewModels.Add(new MovieGenreViewModel { Name = item.Name });
             }
 
-            string[] directors = model.Directors.Split(",");
+            List<MovieCrewMember> movieActors = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Actor).ToList();
+            List<CrewMember> Actors = _database.CrewMembers.Where(a => movieActors.Any(b => b.CrewMemberId == a.Id)).ToList();
+            List<MovieArtistListViewModel> artistViewModels = new List<MovieArtistListViewModel>();
 
-            foreach (var Director in directors)
+            foreach(var item in Actors)
             {
-                CrewMember crewMember = new CrewMember();
-                if (!_database.CrewMembers.Any(a => a.Name == Director))
-                {
-                    crewMember.Name = Director;
-                    _database.CrewMembers.Add(crewMember);
-                    _database.SaveChanges();
-                }
-                else
-                {
-                    crewMember = _database.CrewMembers.FirstOrDefault(a => a.Name == Director);
-                }
-
-
-                MovieCrewMember movieCrewMember = new MovieCrewMember()
-                {
-                    MovieId = movie.Id,
-                    CrewMemberId = crewMember.Id,
-                    MemberRole = MovieCrewMember.Role.Director
-                };
-
-                _database.MovieCrewMember.Add(movieCrewMember);
+                artistViewModels.Add(new MovieArtistListViewModel { ArtistName = item.Name });
             }
+            
+            List<MovieCrewMember> movieDirectors = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Director).ToList();
+            List<CrewMember> Directors = _database.CrewMembers.Where(a => movieDirectors.Any(b => b.CrewMemberId == a.Id)).ToList();
+            List<MovieArtistListViewModel> directorViewModels = new List<MovieArtistListViewModel>();
+
+            foreach(var item in Directors)
+            {
+                directorViewModels.Add(new MovieArtistListViewModel { ArtistName = item.Name });
+            }
+
+            MovieViewViewModel model = new MovieViewViewModel()
+            {
+                Title = movie.Title,
+                Description = movie.Description,
+                PlayTime = movie.PlayTime,
+                ReleaseDate = movie.ReleaseDate,
+                Genre = genreViewModels,
+                Actors = artistViewModels,
+                Directors = directorViewModels
+            };
+
+            return View(model);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            Movie movieFromDb = _database.Movies.First(a => a.Id == id);
+
+            _database.Movies.Remove(movieFromDb);
 
             _database.SaveChanges();
 

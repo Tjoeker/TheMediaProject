@@ -1,0 +1,37 @@
+﻿@model TheMediaProject.Models.Movies.MovieViewViewModel
+
+<strong>Titel</strong>
+<p>@Model.Title</p>
+
+<strong>Description</strong>
+<p>@Model.Description</p>
+
+<strong>PlayTime</strong>
+<p>@Model.PlayTime.Hours:@Model.PlayTime.Minutes</p>
+
+<strong>ReleaseDate</strong>
+<p>@Model.ReleaseDate.ToShortDateString()</p>
+
+<strong>Genre</strong>
+<p>
+    @foreach (var genre in Model.Genre)
+    {
+        @(genre.Name) 
+    }
+</p>
+
+<strong>Director</strong>
+<p>
+    @foreach(var director in Model.Directors)
+    {
+        @director.ArtistName
+    }
+</p>
+
+<strong>Actors</strong>
+<p>
+    @foreach(var actor in Model.Actors)
+    {
+        @actor.ArtistName
+    }
+</p>
