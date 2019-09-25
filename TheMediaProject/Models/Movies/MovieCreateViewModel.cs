@@ -11,13 +11,15 @@ namespace TheMediaProject.Models.Movies
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<string> Genre { get; set; }
+        public string Genre { get; set; }
         public string Actors { get; set; }
         public string Directors { get; set; }
         public int PlayTimeHours { get; set; }
         public int PlayTimeMinutes { get; set; }
+        [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public byte[] Photo { get; set; }
         public List<MovieArtistListViewModel> artistNames { get; set; }
+        public List<MovieGenreViewModel> genreNames { get; set; }
     }
 }

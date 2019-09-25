@@ -65,15 +65,25 @@ namespace TheMediaProject.Controllers.Movies
         {
             MovieCreateViewModel model = new MovieCreateViewModel();
 
+            List<MovieGenreViewModel> movieGenreList = new List<MovieGenreViewModel>();
+
+            foreach(var genre in _database.MovieGenres)
+            {
+                movieGenreList.Add(new MovieGenreViewModel { Name = genre.Name });
+            }
+
+            model.genreNames = movieGenreList;
+
             List<MovieArtistListViewModel> crewMembersList = new List<MovieArtistListViewModel>();
             
-
             foreach(var artist in _database.CrewMembers)
             {
                 crewMembersList.Add(new MovieArtistListViewModel { ArtistName = artist.Name });
             }
 
             model.artistNames = crewMembersList;
+
+            model.ReleaseDate = DateTime.Now;
 
             return View(model);
         }
@@ -86,26 +96,26 @@ namespace TheMediaProject.Controllers.Movies
                 return View(model);
             }
 
-            List<MovieGenre> movieGenres = _database.MovieGenres.ToList();
-            List<int> genreList = new List<int>();
-
-            //foreach(var genre in model.Genre)
-            //{
-            //    MovieGenre movieGenre = movieGenres.Single(a => a.Name == genre);
-            //    genreList.Add(movieGenre.Id);
-            //}
-
             Movie movie = new Movie()
             {
                 Title = model.Title,
                 Description = model.Description,
                 PlayTime = new TimeSpan(model.PlayTimeHours,model.PlayTimeMinutes,0),
                 ReleaseDate = model.ReleaseDate,
-                Photo = model.Photo,
-                GenreId = genreList
+                Photo = model.Photo
             };
 
             _database.Movies.Add(movie);
+            _database.SaveChanges();
+
+            string[] genres = model.Genre.Split(",");
+
+            foreach (var genre in genres)
+            {
+                MovieGenre movieGenre = _database.MovieGenres.FirstOrDefault(a => a.Name == genre);
+                _database.MovieGenreMovies.Add(new MovieGenreMovie { MovieGenreId = movieGenre.Id, MovieId = movie.Id });
+            }
+
             _database.SaveChanges();
 
             string[] actors = model.Actors.Split(",");
