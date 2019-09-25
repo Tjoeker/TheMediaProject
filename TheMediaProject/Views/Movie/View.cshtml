@@ -11,7 +11,12 @@
 </form>
 
 <strong>Description</strong>
-<p>@Model.Description</p>
+<p id="Description" onclick="editDescription()">@Model.Description</p>
+<form id="DescriptionForm" asp-controller="EditMovie" asp-action="EditDescription" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="DescriptionValue" class="form-control" asp-for="Description" />
+    <button class="btn btn-primary" type="submit" onclick="saveDescription()">Save Description</button>
+    <button class="btn btn-primary" type="button" onclick="cancelDescription()">Cancel</button>
+</form>
 
 <strong>PlayTime</strong>
 <p>@Model.PlayTime.Hours:@Model.PlayTime.Minutes</p>
