@@ -231,6 +231,7 @@ namespace TheMediaProject.Controllers.Movies
 
             MovieViewViewModel model = new MovieViewViewModel()
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
                 PlayTime = movie.PlayTime,

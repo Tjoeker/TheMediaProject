@@ -7,6 +7,7 @@ namespace TheMediaProject.Models.Movies
 {
     public class MovieViewViewModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public TimeSpan PlayTime { get; set; }

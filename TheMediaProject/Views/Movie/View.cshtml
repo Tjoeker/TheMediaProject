@@ -1,7 +1,14 @@
-﻿@model TheMediaProject.Models.Movies.MovieViewViewModel
+﻿<script src="~/js/editItem.js"></script>
 
-<strong>Titel</strong>
-<p>@Model.Title</p>
+@model TheMediaProject.Models.Movies.MovieViewViewModel
+
+<strong>Title</strong>
+<p id="Title" onclick="editTitle()">@Model.Title</p>
+<form id="TitleForm" asp-controller="EditMovie" asp-action="EditTitle" asp-route-Id="@Model.Id" method="post" style="display:none;">
+        <input id="TitleValue" class="form-control" asp-for="Title" />
+        <button class="btn btn-primary" type="submit" onclick="saveTitle()">Save Title</button>
+        <button class="btn btn-primary" type="button" onclick="cancelTitle()">Cancel</button>
+</form>
 
 <strong>Description</strong>
 <p>@Model.Description</p>
@@ -16,13 +23,13 @@
 <p>
     @foreach (var genre in Model.Genre)
     {
-        @(genre.Name) 
+        @(genre.Name)
     }
 </p>
 
 <strong>Director</strong>
 <p>
-    @foreach(var director in Model.Directors)
+    @foreach (var director in Model.Directors)
     {
         @director.ArtistName
     }
@@ -30,7 +37,7 @@
 
 <strong>Actors</strong>
 <p>
-    @foreach(var actor in Model.Actors)
+    @foreach (var actor in Model.Actors)
     {
         @actor.ArtistName
     }
