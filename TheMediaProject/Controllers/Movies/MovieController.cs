@@ -241,6 +241,26 @@ namespace TheMediaProject.Controllers.Movies
                 Directors = directorViewModels
             };
 
+
+
+            List<MovieGenreViewModel> movieGenreList = new List<MovieGenreViewModel>();
+
+            foreach (var genre in _database.MovieGenres)
+            {
+                movieGenreList.Add(new MovieGenreViewModel { Name = genre.Name });
+            }
+
+            model.GenreNames = movieGenreList;
+
+            List<MovieArtistListViewModel> crewMembersList = new List<MovieArtistListViewModel>();
+
+            foreach (var artist in _database.CrewMembers)
+            {
+                crewMembersList.Add(new MovieArtistListViewModel { ArtistName = artist.Name });
+            }
+
+            model.CrewMemberNames = crewMembersList;
+
             return View(model);
         }
 

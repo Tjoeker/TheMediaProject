@@ -5,9 +5,9 @@
 <strong>Title</strong>
 <p id="Title" onclick="editTitle()">@Model.Title</p>
 <form id="TitleForm" asp-controller="EditMovie" asp-action="EditTitle" asp-route-Id="@Model.Id" method="post" style="display:none;">
-        <input id="TitleValue" class="form-control" asp-for="Title" />
-        <button class="btn btn-primary" type="submit" onclick="saveTitle()">Save Title</button>
-        <button class="btn btn-primary" type="button" onclick="cancelTitle()">Cancel</button>
+    <input id="TitleValue" class="form-control" asp-for="Title" />
+    <button class="btn btn-primary" type="submit" onclick="saveTitle()">Save Title</button>
+    <button class="btn btn-primary" type="button" onclick="cancelTitle()">Cancel</button>
 </form>
 
 <strong>Description</strong>
@@ -19,31 +19,97 @@
 </form>
 
 <strong>PlayTime</strong>
-<p>@Model.PlayTime.Hours:@Model.PlayTime.Minutes</p>
+<p id="PlayTime" onclick="editPlayTime()">@GetPlayTime()</p>
+<form id="PlayTimeForm" asp-controller="EditMovie" asp-action="EditPlayTime" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="PlayTimeValue" class="form-control" asp-for="PlayTime" />
+    <button class="btn btn-primary" type="submit" onclick="savePlayTime()">Save Playtime</button>
+    <button class="btn btn-primary" type="button" onclick="cancelPlayTime()">Cancel</button>
+</form>
 
 <strong>ReleaseDate</strong>
-<p>@Model.ReleaseDate.ToShortDateString()</p>
+<p id="ReleaseDate" onclick="editReleaseDate()">@Model.ReleaseDate.ToShortDateString()</p>
+<form id="ReleaseDateForm" asp-controller="EditMovie" asp-action="EditReleaseDate" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="ReleaseDateValue" class="form-control" asp-for="ReleaseDate" />
+    <button class="btn btn-primary" type="submit" onclick="saveReleaseDate()">Save Releasedate</button>
+    <button class="btn btn-primary" type="button" onclick="cancelReleaseDate()">Cancel</button>
+</form>
 
 <strong>Genre</strong>
-<p>
+<p id="Genre" onclick="editGenre()">
     @foreach (var genre in Model.Genre)
     {
         @(genre.Name)
+        if (Model.Genre[Model.Genre.Count - 1] != genre)
+        {
+            <text>,&nbsp;</text>
+        }
     }
 </p>
+<form id="GenreForm" asp-controller="EditMovie" asp-action="EditGenre" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="GenreValue" class="form-control flexdatalist flexdatalist-multiple" data-min-length="0" multiple="multiple" list="genrelist" name="GenreString" asp-for="GenreString" />
+    <datalist id="genrelist">
+        @foreach (var name in Model.GenreNames)
+        {
+            <option value="@name.Name">@name.Name</option>
+        }
+
+    </datalist>
+    <button class="btn btn-primary" type="submit" onclick="saveGenre()">Save Genre</button>
+    <button class="btn btn-primary" type="button" onclick="cancelGenre()">Cancel</button>
+</form>
 
 <strong>Director</strong>
 <p>
     @foreach (var director in Model.Directors)
     {
         @director.ArtistName
+        if (Model.Directors[Model.Directors.Count - 1] != director)
+        {
+            <text>,&nbsp;</text>
+        }
     }
 </p>
 
 <strong>Actors</strong>
-<p>
+<p id="Actors" onclick="editActors()">
     @foreach (var actor in Model.Actors)
     {
-        @actor.ArtistName
+        @(actor.ArtistName)
+        if (Model.Actors[Model.Actors.Count - 1] != actor)
+        {
+            <text>,&nbsp;</text>
+        }
     }
 </p>
+<form id="ActorsForm" asp-controller="EditMovie" asp-action="EditActors" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="ActorsValue" class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="actorlist" name="ActorsString" asp-for="ActorsString" />
+    <datalist id="actorlist">
+        @foreach (var name in Model.CrewMemberNames)
+        {
+            <option value="@name.ArtistName">@name.ArtistName</option>
+        }
+
+    </datalist>
+    <button class="btn btn-primary" type="submit" onclick="saveActors()">Save Actors</button>
+    <button class="btn btn-primary" type="button" onclick="cancelActors()">Cancel</button>
+</form>
+
+
+    @functions{
+        string GetPlayTime()
+        {
+            string time = @Model.PlayTime.Hours + ":";
+
+            if (Model.PlayTime.Minutes.ToString().Length == 1)
+            {
+                time += "0" + Model.PlayTime.Minutes;
+            }
+            else
+            {
+                time += Model.PlayTime.Minutes;
+            }
+
+            return time;
+        }
+
+    }

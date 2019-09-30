@@ -16,5 +16,10 @@ namespace TheMediaProject.Models.Movies
         public List<MovieGenreViewModel> Genre { get; set; }
         public List<MovieArtistListViewModel> Actors { get; set; }
         public List<MovieArtistListViewModel> Directors { get; set; }
+        public string GenreString { get; set; }
+        public string ActorsString { get; set; }
+        public string DirectorsString { get; set; }
+        public List<MovieGenreViewModel> GenreNames { get; set; }
+        public List<MovieArtistListViewModel> CrewMemberNames { get; set; }
     }
 }

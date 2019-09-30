@@ -50,7 +50,11 @@ namespace TheMediaProject.Controllers.Movies
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
 
-            movie.PlayTime = model.PlayTime;
+            string playTime = model.PlayTime.ToString();
+
+            string[] playTimeDivided = playTime.Split(":");
+
+            movie.PlayTime = new TimeSpan(Convert.ToInt16(playTimeDivided[0]), Convert.ToInt16(playTimeDivided[1]), 0);
 
             _database.SaveChanges();
 
@@ -64,6 +68,58 @@ namespace TheMediaProject.Controllers.Movies
             movie.ReleaseDate = model.ReleaseDate;
 
             _database.SaveChanges();
+
+            return RedirectToAction("View", "Movie", new { Id = id });
+        }
+
+        public IActionResult EditGenre(int id, MovieViewViewModel model)
+        {
+            Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
+
+            List<MovieGenreMovie> movieGenreMovies = _database.MovieGenreMovies.Where(a => a.MovieId == id).ToList();
+            _database.MovieGenreMovies.RemoveRange(movieGenreMovies);
+            _database.SaveChanges();
+
+            if (model.GenreString != null)
+            {
+                string[] genres = model.GenreString.Split(",");
+
+                foreach (var genre in genres)
+                {
+                    MovieGenre movieGenre = _database.MovieGenres.FirstOrDefault(a => a.Name == genre);
+                    _database.MovieGenreMovies.Add(new MovieGenreMovie { MovieGenreId = movieGenre.Id, MovieId = movie.Id });
+                }
+            }
+
+
+            _database.SaveChanges();
+
+
+            return RedirectToAction("View", "Movie", new { Id = id });
+        }
+
+        public IActionResult EditActors(int id, MovieViewViewModel model)
+        {
+            Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
+
+            List<MovieCrewMember> ActorsFromDatabase = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Actor).ToList();
+            _database.MovieCrewMember.RemoveRange(ActorsFromDatabase);
+            _database.SaveChanges();
+
+            if (model.ActorsString != null)
+            {
+                string[] actors = model.ActorsString.Split(",");
+
+                foreach (var actorString in actors)
+                {
+                    CrewMember actor = _database.CrewMembers.FirstOrDefault(a => a.Name == actorString);
+                    _database.MovieCrewMember.Add(new MovieCrewMember { CrewMemberId = actor.Id, MovieId = movie.Id, MemberRole = MovieCrewMember.Role.Actor });
+                }
+            }
+
+
+            _database.SaveChanges();
+
 
             return RedirectToAction("View", "Movie", new { Id = id });
         }

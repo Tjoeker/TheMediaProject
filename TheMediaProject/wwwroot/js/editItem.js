@@ -51,3 +51,111 @@ function saveDescription() {
     var y = document.getElementById("DescriptionForm");
     y.style.display = "none";
 }
+
+//Playtime
+function editPlayTime() {
+    var x = document.getElementById("PlayTime");
+    x.style.display = "none";
+
+    var y = document.getElementById("PlayTimeForm");
+    y.style.display = "block";
+
+    document.getElementById("PlayTimeValue").value = document.getElementById("PlayTime").innerHTML;
+}
+
+function cancelPlayTime() {
+    var x = document.getElementById("PlayTime");
+    x.style.display = "block";
+
+    var y = document.getElementById("PlayTimeForm");
+    y.style.display = "none";
+}
+
+function savePlayTime() {
+    var x = document.getElementById("PlayTime");
+    x.style.display = "block";
+
+    var y = document.getElementById("PlayTimeForm");
+    y.style.display = "none";
+}
+
+//ReleaseDate
+function editReleaseDate() {
+    var x = document.getElementById("ReleaseDate");
+    x.style.display = "none";
+
+    var y = document.getElementById("ReleaseDateForm");
+    y.style.display = "block";
+
+    document.getElementById("ReleaseDateValue").value = document.getElementById("ReleaseDate").innerHTML;
+}
+
+function cancelReleaseDate() {
+    var x = document.getElementById("ReleaseDate");
+    x.style.display = "block";
+
+    var y = document.getElementById("ReleaseDateForm");
+    y.style.display = "none";
+}
+
+function saveReleaseDate() {
+    var x = document.getElementById("ReleaseDate");
+    x.style.display = "block";
+
+    var y = document.getElementById("ReleaseDateForm");
+    y.style.display = "none";
+}
+
+//Genre
+function editGenre() {
+    var x = document.getElementById("Genre");
+    x.style.display = "none";
+
+    var y = document.getElementById("GenreForm");
+    y.style.display = "block";
+
+    $('#GenreValue').val(document.getElementById("Genre").innerHTML);
+}
+
+function cancelGenre() {
+    var x = document.getElementById("Genre");
+    x.style.display = "block";
+
+    var y = document.getElementById("GenreForm");
+    y.style.display = "none";
+}
+
+function saveGenre() {
+    var x = document.getElementById("Genre");
+    x.style.display = "block";
+
+    var y = document.getElementById("GenreForm");
+    y.style.display = "none";
+}
+
+//Actors
+function editActors() {
+    var x = document.getElementById("Actors");
+    x.style.display = "none";
+
+    var y = document.getElementById("ActorsForm");
+    y.style.display = "block";
+
+    $('#ActorsValue').val(document.getElementById("Actors").innerHTML);
+}
+
+function cancelActors() {
+    var x = document.getElementById("Actors");
+    x.style.display = "block";
+
+    var y = document.getElementById("ActorsForm");
+    y.style.display = "none";
+}
+
+function saveActors() {
+    var x = document.getElementById("Actors");
+    x.style.display = "block";
+
+    var y = document.getElementById("ActorsForm");
+    y.style.display = "none";
+}

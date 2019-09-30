@@ -1,4 +1,5 @@
 ﻿@model TheMediaProject.Models.Movies.MovieIndexViewModel
+@using TheMediaProject.Models.Movies;
 
 <a asp-action="Create">Create New Movie</a>
 
@@ -11,7 +12,7 @@
         {
             <tr>
                 <td>
-                    <h3><a asp-action="View" asp-controller="Movie" asp-route-id="@movie.Id">@movie.Title (@movie.ReleaseDate.Year)</a>  - @movie.PlayTime.Hours:@movie.PlayTime.Minutes </h3>
+                    <h3><a asp-action="View" asp-controller="Movie" asp-route-id="@movie.Id">@movie.Title (@movie.ReleaseDate.Year)</a>  - @GetPlayTime(movie) </h3>
                 </td>
                 <td>
                     <a asp-action="Delete" asp-controller="Movie" asp-route-id="@movie.Id">Delete</a>
@@ -36,3 +37,20 @@
     }
 </table>
 
+@functions{
+    string GetPlayTime(MovieListItemViewModel movie)
+    {
+        string time = movie.PlayTime.Hours + ":";
+
+        if(movie.PlayTime.Minutes.ToString().Length == 1)
+        {
+            time += "0" + movie.PlayTime.Minutes;
+        }
+        else
+        {
+            time += movie.PlayTime.Minutes;
+        }
+
+        return time;
+    }
+}
