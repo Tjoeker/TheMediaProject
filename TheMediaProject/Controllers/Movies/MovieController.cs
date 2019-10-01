@@ -159,6 +159,8 @@ namespace TheMediaProject.Controllers.Movies
 
                 }
             }
+
+            _database.SaveChanges();
             
             if(model.Directors != null)
             {
@@ -179,14 +181,24 @@ namespace TheMediaProject.Controllers.Movies
                     }
 
 
-                    MovieCrewMember movieCrewMember = new MovieCrewMember()
-                    {
-                        MovieId = movie.Id,
-                        CrewMemberId = crewMember.Id,
-                        MemberRole = MovieCrewMember.Role.Director
-                    };
+                    MovieCrewMember movieCrewMember = new MovieCrewMember();
 
-                    _database.MovieCrewMember.Add(movieCrewMember);
+                    if (!_database.MovieCrewMember.Any(a => a.MovieId == movie.Id && a.CrewMemberId == crewMember.Id))
+                    {
+
+                        movieCrewMember.MovieId = movie.Id;
+                        movieCrewMember.CrewMemberId = crewMember.Id;
+                        movieCrewMember.MemberRole = MovieCrewMember.Role.Director;
+                        _database.MovieCrewMember.Add(movieCrewMember);
+                    }
+                    else
+                    {
+                        movieCrewMember = _database.MovieCrewMember.First(a => a.MovieId == movie.Id && a.CrewMemberId == crewMember.Id);
+                        movieCrewMember.MemberRole = MovieCrewMember.Role.Both;
+                    }
+
+
+                    
                 }
             }
             
@@ -211,7 +223,7 @@ namespace TheMediaProject.Controllers.Movies
                 genreViewModels.Add(new MovieGenreViewModel { Name = item.Name });
             }
 
-            List<MovieCrewMember> movieActors = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Actor).ToList();
+            List<MovieCrewMember> movieActors = _database.MovieCrewMember.Where(a => a.MovieId == id && (a.MemberRole == MovieCrewMember.Role.Actor || a.MemberRole == MovieCrewMember.Role.Both)).ToList();
             List<CrewMember> Actors = _database.CrewMembers.Where(a => movieActors.Any(b => b.CrewMemberId == a.Id)).ToList();
             List<MovieArtistListViewModel> artistViewModels = new List<MovieArtistListViewModel>();
 
@@ -220,7 +232,7 @@ namespace TheMediaProject.Controllers.Movies
                 artistViewModels.Add(new MovieArtistListViewModel { ArtistName = item.Name });
             }
             
-            List<MovieCrewMember> movieDirectors = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Director).ToList();
+            List<MovieCrewMember> movieDirectors = _database.MovieCrewMember.Where(a => a.MovieId == id && (a.MemberRole == MovieCrewMember.Role.Director || a.MemberRole == MovieCrewMember.Role.Both)).ToList();
             List<CrewMember> Directors = _database.CrewMembers.Where(a => movieDirectors.Any(b => b.CrewMemberId == a.Id)).ToList();
             List<MovieArtistListViewModel> directorViewModels = new List<MovieArtistListViewModel>();
 

@@ -59,7 +59,7 @@
 </form>
 
 <strong>Director</strong>
-<p>
+<p id="Directors" onclick="editDirectors()">
     @foreach (var director in Model.Directors)
     {
         @director.ArtistName
@@ -69,6 +69,18 @@
         }
     }
 </p>
+<form id="DirectorsForm" asp-controller="EditMovie" asp-action="EditDirectors" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="DirectorsValue" class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="directorlist" name="DirectorsString" asp-for="DirectorsString" />
+    <datalist id="directorlist">
+        @foreach (var name in Model.CrewMemberNames)
+        {
+            <option value="@name.ArtistName">@name.ArtistName</option>
+        }
+
+    </datalist>
+    <button class="btn btn-primary" type="submit" onclick="saveDirectors()">Save Directors</button>
+    <button class="btn btn-primary" type="button" onclick="cancelDirectors()">Cancel</button>
+</form>
 
 <strong>Actors</strong>
 <p id="Actors" onclick="editActors()">

@@ -9,7 +9,7 @@ namespace TheMediaProject.Domain.Movies
     {
         public int MovieId { get; set; }
         public int CrewMemberId { get; set; }
-        public enum Role { Actor, Director};
+        public enum Role { Actor, Director, Both};
         public Role MemberRole { get; set; }
     }
 }

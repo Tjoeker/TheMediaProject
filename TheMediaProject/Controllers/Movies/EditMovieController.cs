@@ -104,16 +104,116 @@ namespace TheMediaProject.Controllers.Movies
 
             List<MovieCrewMember> ActorsFromDatabase = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Actor).ToList();
             _database.MovieCrewMember.RemoveRange(ActorsFromDatabase);
+
+            List<MovieCrewMember> BothFromDatabase = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Both).ToList();
+
+            foreach (var both in BothFromDatabase)
+            {
+                both.MemberRole = MovieCrewMember.Role.Director;
+            }
+
             _database.SaveChanges();
 
             if (model.ActorsString != null)
             {
-                string[] actors = model.ActorsString.Split(",");
+                string[] actors = model.ActorsString.Split(",&nbsp;");
 
                 foreach (var actorString in actors)
                 {
-                    CrewMember actor = _database.CrewMembers.FirstOrDefault(a => a.Name == actorString);
-                    _database.MovieCrewMember.Add(new MovieCrewMember { CrewMemberId = actor.Id, MovieId = movie.Id, MemberRole = MovieCrewMember.Role.Actor });
+                    CrewMember crewMember = new CrewMember();
+
+                    if (!_database.CrewMembers.Any(a => a.Name == actorString))
+                    {
+                        crewMember.Name = actorString;
+                        _database.CrewMembers.Add(crewMember);
+                        _database.SaveChanges();
+                    }
+                    else
+                    {
+                        crewMember = _database.CrewMembers.FirstOrDefault(a => a.Name == actorString);
+                    }
+
+                    _database.SaveChanges();
+
+                    MovieCrewMember movieCrewMember = new MovieCrewMember();
+
+                    if (!_database.MovieCrewMember.Any(a => a.MovieId == movie.Id && a.CrewMemberId == crewMember.Id))
+                    {
+
+                        movieCrewMember.MovieId = movie.Id;
+                        movieCrewMember.CrewMemberId = crewMember.Id;
+                        movieCrewMember.MemberRole = MovieCrewMember.Role.Actor;
+                    }
+                    else
+                    {
+                        movieCrewMember.MemberRole = MovieCrewMember.Role.Both;
+                    }
+
+
+                    _database.MovieCrewMember.Add(movieCrewMember);
+                }
+            }
+
+
+            _database.SaveChanges();
+
+
+            return RedirectToAction("View", "Movie", new { Id = id });
+        }
+
+        public IActionResult EditDirectors(int id, MovieViewViewModel model)
+        {
+            Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
+
+            List<MovieCrewMember> DirectorsFromDatabase = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Director).ToList();
+            _database.MovieCrewMember.RemoveRange(DirectorsFromDatabase);
+
+            List<MovieCrewMember> BothFromDatabase = _database.MovieCrewMember.Where(a => a.MovieId == id && a.MemberRole == MovieCrewMember.Role.Both).ToList();
+
+            foreach(var both in BothFromDatabase)
+            {
+                both.MemberRole = MovieCrewMember.Role.Actor;
+            }
+
+            _database.SaveChanges();
+
+            if (model.ActorsString != null)
+            {
+                string[] directors = model.DirectorsString.Split(",&nbsp;");
+
+                foreach (var directorString in directors)
+                {
+                    CrewMember crewMember = new CrewMember();
+
+                    if (!_database.CrewMembers.Any(a => a.Name == directorString))
+                    {
+                        crewMember.Name = directorString;
+                        _database.CrewMembers.Add(crewMember);
+                        _database.SaveChanges();
+                    }
+                    else
+                    {
+                        crewMember = _database.CrewMembers.FirstOrDefault(a => a.Name == directorString);
+                    }
+
+                    _database.SaveChanges();
+
+                    MovieCrewMember movieCrewMember = new MovieCrewMember();
+
+                    if(!_database.MovieCrewMember.Any(a => a.MovieId == movie.Id && a.CrewMemberId == crewMember.Id))
+                    {
+
+                        movieCrewMember.MovieId = movie.Id;
+                        movieCrewMember.CrewMemberId = crewMember.Id;
+                        movieCrewMember.MemberRole = MovieCrewMember.Role.Director;
+                    }
+                    else
+                    {
+                        movieCrewMember.MemberRole = MovieCrewMember.Role.Both;
+                    }
+                    
+
+                    _database.MovieCrewMember.Add(movieCrewMember);
                 }
             }
 

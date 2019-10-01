@@ -159,3 +159,30 @@ function saveActors() {
     var y = document.getElementById("ActorsForm");
     y.style.display = "none";
 }
+
+//Directors
+function editDirectors() {
+    var x = document.getElementById("Directors");
+    x.style.display = "none";
+
+    var y = document.getElementById("DirectorsForm");
+    y.style.display = "block";
+
+    $('#DirectorsValue').val(document.getElementById("Directors").innerHTML);
+}
+
+function cancelDirectors() {
+    var x = document.getElementById("Directors");
+    x.style.display = "block";
+
+    var y = document.getElementById("DirectorsForm");
+    y.style.display = "none";
+}
+
+function saveDirectors() {
+    var x = document.getElementById("Directors");
+    x.style.display = "block";
+
+    var y = document.getElementById("DirectorsForm");
+    y.style.display = "none";
+}
