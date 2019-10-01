@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheMediaProject.Domain.Movies.Series
+namespace TheMediaProject.Domain.Movies.Serie
 {
     public class Series
     {
@@ -12,5 +12,6 @@ namespace TheMediaProject.Domain.Movies.Series
         public string Description { get; set; }
         public ICollection<Season> Seasons { get; set; }
         public byte[] Photo { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }

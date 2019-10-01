@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Server;
 using TheMediaProject.Domain.Movies;
-using TheMediaProject.Domain.Movies.Series;
+using TheMediaProject.Domain.Movies.Serie;
 using TheMediaProject.Domain.Music;
 using TheMediaProject.Domain.Podcasts;
 
@@ -27,6 +27,7 @@ namespace TheMediaProject.Data
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Series> Series { get; set; }
+        public DbSet<MovieGenreSeries> MovieGenreSeries { get; set; }
         public DbSet<SeriesCrewMember> SeriesCrewMembers { get; set; }
 
         public DbSet<Album> Albums { get; set; }
@@ -45,6 +46,7 @@ namespace TheMediaProject.Data
         {
             builder.Entity<MovieCrewMember>().HasKey(k => new { k.CrewMemberId, k.MovieId });
             builder.Entity<MovieGenreMovie>().HasKey(k => new { k.MovieGenreId, k.MovieId });
+            builder.Entity<MovieGenreSeries>().HasKey(k => new { k.MovieGenreId, k.SerieId });
             builder.Entity<SongArtist>().HasKey(k => new { k.ArtistId, k.SongId });
             builder.Entity<PodcastPersonPodcast>().HasKey(k => new { k.PodcastId, k.PodcastPersonId });
             builder.Entity<SeriesCrewMember>().HasKey(k => new { k.CrewMemberId, k.MovieId });
