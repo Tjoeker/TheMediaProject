@@ -1,1 +1,36 @@
-﻿
+﻿@model TheMediaProject.Models.Serie.SeriesIndexViewModel
+
+    <a asp-action="Create">Create New Series</a>
+
+<h2>Series</h2>
+<table>
+    @if (Model.SeriesListItems.Count > 0)
+    {
+        @foreach (var serie in Model.SeriesListItems)
+        {
+            <tr>
+                <td>
+                    <h3><a asp-action="View" asp-controller="Series" asp-route-id="@serie.Id">@serie.Title (@serie.ReleaseDate.Year)</a></h3>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-controller="Series" asp-route-id="@serie.Id">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @foreach (var genre in serie.Genre)
+                    {
+                        @genre
+                    }
+                </td>
+            </tr>
+            <p>
+
+            </p>
+        }
+    }
+    else
+    {
+        <p>Er zijn geen series beschikbaar.</p>
+    }
+</table>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheMediaProject.Data;
 
 namespace TheMediaProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003072136_updateSeries")]
+    partial class updateSeries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,11 +346,11 @@ namespace TheMediaProject.Data.Migrations
                 {
                     b.Property<int>("CrewMemberId");
 
-                    b.Property<int>("SeriesId");
+                    b.Property<int>("MovieId");
 
                     b.Property<int>("MemberRole");
 
-                    b.HasKey("CrewMemberId", "SeriesId");
+                    b.HasKey("CrewMemberId", "MovieId");
 
                     b.ToTable("SeriesCrewMembers");
                 });

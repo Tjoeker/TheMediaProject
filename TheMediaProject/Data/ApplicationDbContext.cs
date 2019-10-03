@@ -49,7 +49,7 @@ namespace TheMediaProject.Data
             builder.Entity<MovieGenreSeries>().HasKey(k => new { k.MovieGenreId, k.SerieId });
             builder.Entity<SongArtist>().HasKey(k => new { k.ArtistId, k.SongId });
             builder.Entity<PodcastPersonPodcast>().HasKey(k => new { k.PodcastId, k.PodcastPersonId });
-            builder.Entity<SeriesCrewMember>().HasKey(k => new { k.CrewMemberId, k.MovieId });
+            builder.Entity<SeriesCrewMember>().HasKey(k => new { k.CrewMemberId, k.SeriesId });
 
             builder.Entity<MovieGenre>().HasData(
                 new MovieGenre { Id = 1, Name = "Absurdist"},

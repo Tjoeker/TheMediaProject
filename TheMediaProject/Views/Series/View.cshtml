@@ -1,0 +1,100 @@
+﻿<script src="~/js/editItem.js"></script>
+
+@model TheMediaProject.Models.Serie.SeriesViewViewModel
+
+<strong>Title</strong>
+<p id="Title" onclick="editTitle()">@Model.Title</p>
+<form id="TitleForm" asp-controller="EditSeries" asp-action="EditTitle" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="TitleValue" class="form-control" asp-for="Title" />
+    <button class="btn btn-primary" type="submit" onclick="saveTitle()">Save Title</button>
+    <button class="btn btn-primary" type="button" onclick="cancelTitle()">Cancel</button>
+</form>
+
+<strong>Description</strong>
+<p id="Description" onclick="editDescription()">@Model.Description</p>
+<form id="DescriptionForm" asp-controller="EditSeries" asp-action="EditDescription" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="DescriptionValue" class="form-control" asp-for="Description" />
+    <button class="btn btn-primary" type="submit" onclick="saveDescription()">Save Description</button>
+    <button class="btn btn-primary" type="button" onclick="cancelDescription()">Cancel</button>
+</form>
+
+<strong>ReleaseDate</strong>
+<p id="ReleaseDate" onclick="editReleaseDate()">@Model.ReleaseDate.ToShortDateString()</p>
+<form id="ReleaseDateForm" asp-controller="EditSeries" asp-action="EditReleaseDate" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="ReleaseDateValue" class="form-control" asp-for="ReleaseDate" />
+    <button class="btn btn-primary" type="submit" onclick="saveReleaseDate()">Save Releasedate</button>
+    <button class="btn btn-primary" type="button" onclick="cancelReleaseDate()">Cancel</button>
+</form>
+
+<strong>Genre</strong>
+<p id="Genre" onclick="editGenre()">
+    @foreach (var genre in Model.Genre)
+    {
+        @(genre.Name)
+        if (Model.Genre[Model.Genre.Count - 1] != genre)
+        {
+            <text>,&nbsp;</text>
+        }
+    }
+</p>
+<form id="GenreForm" asp-controller="EditSeries" asp-action="EditGenre" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="GenreValue" class="form-control flexdatalist flexdatalist-multiple" data-min-length="0" multiple="multiple" list="genrelist" name="GenreString" asp-for="GenreString" />
+    <datalist id="genrelist">
+        @foreach (var name in Model.GenreNames)
+        {
+            <option value="@name.Name">@name.Name</option>
+        }
+
+    </datalist>
+    <button class="btn btn-primary" type="submit" onclick="saveGenre()">Save Genre</button>
+    <button class="btn btn-primary" type="button" onclick="cancelGenre()">Cancel</button>
+</form>
+
+<strong>Director</strong>
+<p id="Directors" onclick="editDirectors()">
+    @foreach (var director in Model.Directors)
+    {
+        @director.ArtistName
+        if (Model.Directors[Model.Directors.Count - 1] != director)
+        {
+            <text>,&nbsp;</text>
+        }
+    }
+</p>
+<form id="DirectorsForm" asp-controller="EditSeries" asp-action="EditDirectors" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="DirectorsValue" class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="directorlist" name="DirectorsString" asp-for="DirectorsString" />
+    <datalist id="directorlist">
+        @foreach (var name in Model.CrewMemberNames)
+        {
+            <option value="@name.ArtistName">@name.ArtistName</option>
+        }
+
+    </datalist>
+    <button class="btn btn-primary" type="submit" onclick="saveDirectors()">Save Directors</button>
+    <button class="btn btn-primary" type="button" onclick="cancelDirectors()">Cancel</button>
+</form>
+
+<strong>Actors</strong>
+<p id="Actors" onclick="editActors()">
+    @foreach (var actor in Model.Actors)
+    {
+        @(actor.ArtistName)
+        if (Model.Actors[Model.Actors.Count - 1] != actor)
+        {
+            <text>,&nbsp;</text>
+        }
+    }
+</p>
+<form id="ActorsForm" asp-controller="EditSeries" asp-action="EditActors" asp-route-Id="@Model.Id" method="post" style="display:none;">
+    <input id="ActorsValue" class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="actorlist" name="ActorsString" asp-for="ActorsString" />
+    <datalist id="actorlist">
+        @foreach (var name in Model.CrewMemberNames)
+        {
+            <option value="@name.ArtistName">@name.ArtistName</option>
+        }
+
+    </datalist>
+    <button class="btn btn-primary" type="submit" onclick="saveActors()">Save Actors</button>
+    <button class="btn btn-primary" type="button" onclick="cancelActors()">Cancel</button>
+</form>
+
