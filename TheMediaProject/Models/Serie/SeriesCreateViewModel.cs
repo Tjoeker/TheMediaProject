@@ -19,5 +19,6 @@ namespace TheMediaProject.Models.Serie
         public byte[] Photo { get; set; }
         public List<MovieArtistListViewModel> artistNames { get; set; }
         public List<MovieGenreViewModel> genreNames { get; set; }
+        public List<EpisodeCreateViewModel> Episodes { get; set; }
     }
 }

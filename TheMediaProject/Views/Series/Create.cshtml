@@ -1,59 +1,124 @@
-﻿@model TheMediaProject.Models.Serie.SeriesCreateViewModel
+﻿<script src="~/js/Series.js"></script>
 
-    <form asp-controller="Series" asp-action="Create" enctype="multipart/form-data" method="post">
+@model TheMediaProject.Models.Serie.SeriesCreateViewModel
+
+<form asp-controller="Series" asp-action="Create" enctype="multipart/form-data" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input class="form-control" asp-for="Title" />
+        <span class="text-danger" asp-validation-for="Title"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ReleaseDate"></label>
+        <input class="form-control" asp-for="ReleaseDate" />
+        <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Genre"></label>
+        <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="0" multiple="multiple" list="genrelist" name="Genre" asp-for="Genre" />
+        <datalist id="genrelist">
+            @foreach (var name in Model.genreNames)
+            {
+                <option value="@name.Name">@name.Name</option>
+            }
+
+        </datalist>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input class="form-control" asp-for="Description" />
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Actors"></label>
+        <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="actorlist" name="Actors" asp-for="Actors" />
+        <datalist id="actorlist">
+            @foreach (var name in Model.artistNames)
+            {
+                <option value="@name.ArtistName">@name.ArtistName</option>
+            }
+
+        </datalist>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Directors"></label>
+        <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="directorlist" name="Directors" asp-for="Directors" />
+        <datalist id="directorlist">
+            @foreach (var name in Model.artistNames)
+            {
+                <option value="@name.ArtistName">@name.ArtistName</option>
+            }
+
+        </datalist>
+    </div>
+
+
+    <div class="SeasonForm" style="display:none;">
+        <h2>Episodes</h2>
+
+        <h3>Episode 1</h3>
         <div class="form-group">
-            <label asp-for="Title"></label>
-            <input class="form-control" asp-for="Title" />
-            <span class="text-danger" asp-validation-for="Title"></span>
+            <label asp-for="Episodes[0].Title"></label>
+            <input class="form-control" asp-for="Episodes[0].Title" />
+            <span class="text-danger" asp-validation-for="Episodes[0].Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[0].Description"></label>
+            <input class="form-control" asp-for="Episodes[0].Description" />
+            <span class="text-danger" asp-validation-for="Episodes[0].Description"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[0].PlayTimeHours"></label>
+            <input class="form-control" asp-for="Episodes[0].PlayTimeHours" />
+            <span class="text-danger" asp-validation-for="Episodes[0].PlayTimeHours"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[0].PlayTimeMinutes"></label>
+            <input class="form-control" asp-for="Episodes[0].PlayTimeMinutes" />
+            <span class="text-danger" asp-validation-for="Episodes[0].PlayTimeMinutes"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[0].ReleaseDate"></label>
+            <input class="form-control" asp-for="Episodes[0].ReleaseDate" />
+            <span class="text-danger" asp-validation-for="Episodes[0].ReleaseDate"></span>
         </div>
 
+        <h3>Episode 2</h3>
         <div class="form-group">
-            <label asp-for="ReleaseDate"></label>
-            <input class="form-control" asp-for="ReleaseDate" />
-            <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+            <label asp-for="Episodes[1].Title"></label>
+            <input class="form-control" asp-for="Episodes[1].Title" />
+            <span class="text-danger" asp-validation-for="Episodes[1].Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[1].Description"></label>
+            <input class="form-control" asp-for="Episodes[1].Description" />
+            <span class="text-danger" asp-validation-for="Episodes[1].Description"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[1].PlayTimeHours"></label>
+            <input class="form-control" asp-for="Episodes[1].PlayTimeHours" />
+            <span class="text-danger" asp-validation-for="Episodes[1].PlayTimeHours"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[1].PlayTimeMinutes"></label>
+            <input class="form-control" asp-for="Episodes[1].PlayTimeMinutes" />
+            <span class="text-danger" asp-validation-for="Episodes[1].PlayTimeMinutes"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[1].ReleaseDate"></label>
+            <input class="form-control" asp-for="Episodes[1].ReleaseDate" />
+            <span class="text-danger" asp-validation-for="Episodes[1].ReleaseDate"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="Genre"></label>
-            <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="0" multiple="multiple" list="genrelist" name="Genre" asp-for="Genre" />
-            <datalist id="genrelist">
-                @foreach (var name in Model.genreNames)
-                {
-                    <option value="@name.Name">@name.Name</option>
-                }
+        <button id="AddEpisodeButton" class="btn btn-primary" type="button" onclick="AddEpisode()">Add Another Episode</button>
+    </div>
 
-            </datalist>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <input class="form-control" asp-for="Description" />
-            <span class="text-danger" asp-validation-for="Description"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Actors"></label>
-            <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="actorlist" name="Actors" asp-for="Actors" />
-            <datalist id="actorlist">
-                @foreach (var name in Model.artistNames)
-                {
-                    <option value="@name.ArtistName">@name.ArtistName</option>
-                }
-
-            </datalist>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Directors"></label>
-            <input class="form-control flexdatalist flexdatalist-multiple" data-min-length="1" multiple="multiple" list="directorlist" name="Directors" asp-for="Directors" />
-            <datalist id="directorlist">
-                @foreach (var name in Model.artistNames)
-                {
-                    <option value="@name.ArtistName">@name.ArtistName</option>
-                }
-
-            </datalist>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Create Series</button>
-    </form>
+    <button class="btn btn-primary" type="submit">Create Series</button>
+    <button class="btn btn-primary SeasonFormHide" type="button" onclick="ShowCreateSeason()">Add First Season</button>
+    <button id="SeasonFormButton" class="btn btn-primary" type="button" onclick="CancelCreateSeason()" style="display:none;">Cancel Create Season</button>
+</form>

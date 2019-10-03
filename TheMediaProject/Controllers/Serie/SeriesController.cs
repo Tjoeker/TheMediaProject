@@ -201,6 +201,28 @@ namespace TheMediaProject.Controllers.Serie
 
             _database.SaveChanges();
 
+            Season season = new Season
+            {
+                SeriesId = series.Id,
+                SeasonNumber = 1
+            };
+
+            _database.SaveChanges();
+
+            foreach(var episodeItem in model.Episodes)
+            {
+                Episode episode = new Episode
+                {
+                    Title = episodeItem.Title,
+                    Description = episodeItem.Description,
+                    ReleaseDate = episodeItem.ReleaseDate,
+                    SeasonId = season.Id,
+                    PlayTime = new TimeSpan(episodeItem.PlayTimeHours, episodeItem.PlayTimeMinutes,0)
+                };
+
+                _database.SaveChanges();
+            }
+
             return RedirectToAction("Index");
         }
 
