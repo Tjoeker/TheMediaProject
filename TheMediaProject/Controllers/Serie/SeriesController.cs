@@ -212,6 +212,7 @@ namespace TheMediaProject.Controllers.Serie
                     SeasonNumber = 1
                 };
 
+                _database.Seasons.Add(season);
                 _database.SaveChanges();
 
                 foreach (var episodeItem in model.Episodes)
@@ -225,6 +226,7 @@ namespace TheMediaProject.Controllers.Serie
                         PlayTime = new TimeSpan(episodeItem.PlayTimeHours, episodeItem.PlayTimeMinutes, 0)
                     };
 
+                    _database.Episodes.Add(episode);
                     _database.SaveChanges();
                 }
             }
@@ -297,6 +299,26 @@ namespace TheMediaProject.Controllers.Serie
             }
 
             model.CrewMemberNames = crewMembersList;
+
+
+            foreach(var season in _database.Seasons.Where(a => a.SeriesId == id).ToList())
+            {
+                List<Episode> episodes = _database.Episodes.Where(a => a.SeasonId == season.Id).ToList();
+                DateTime startDate = episodes[0].ReleaseDate;
+                DateTime endDate = episodes[episodes.Count - 1].ReleaseDate;
+
+
+                SeasonViewModel seasonVM = new SeasonViewModel
+                {
+                    Id = season.Id,
+                    SeasonNumber = season.SeasonNumber,
+                    Episodes = season.Episodes.Count(),
+                    StartDate = startDate,
+                    EndDate = endDate
+                };
+
+                model.Seasons.Add(seasonVM);
+            }
 
             return View(model);
         }

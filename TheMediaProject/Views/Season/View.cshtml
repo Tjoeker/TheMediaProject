@@ -1,0 +1,95 @@
+﻿<script src="~/js/editItem.js"></script>
+<script src="~/js/Series.js"></script>
+
+@model TheMediaProject.Models.Serie.SeasonDetailViewModel
+
+<h2>@Model.SeriesTitle - Season @Model.SeasonNumber (@GetYears(Model.Seasons.First(a => a.Id == Model.SeasonId).StartDate, Model.Seasons.First(a => a.Id == Model.SeasonId).EndDate))</h2>
+
+@foreach (var episode in @Model.Episodes)
+{
+    if (episode.EpisodeNumber != 0)
+    {
+        <h3>episode @episode.EpisodeNumber</h3>
+        <strong>Title</strong>
+        <p>@episode.Title (@episode.ReleaseDate.ToShortDateString()) -  @GetPlayTime(episode.PlayTime)</p>
+
+        <strong>Description</strong>
+        <p>@episode.Description</p>
+    }
+
+}
+
+<div class="SeasonForm" style="display:none;">
+    <form asp-controller="Season" asp-action="View" asp-route-SeriesId="@Model.SeriesId" asp-route-SeasonId="@Model.SeasonId" enctype="multipart/form-data" method="post">
+        <h3>New Episode</h3>
+        <div class="form-group">
+            <label asp-for="Episodes[0].Title"></label>
+            <input class="form-control" asp-for="Episodes[0].Title" />
+            <span class="text-danger" asp-validation-for="Episodes[0].Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[GetNewIndex()].Description"></label>
+            <input class="form-control" asp-for="Episodes[GetNewIndex()].Description" />
+            <span class="text-danger" asp-validation-for="Episodes[GetNewIndex()].Description"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[GetNewIndex()].PlayTimeHours"></label>
+            <input class="form-control" asp-for="Episodes[GetNewIndex()].PlayTimeHours" />
+            <span class="text-danger" asp-validation-for="Episodes[GetNewIndex()].PlayTimeHours"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[GetNewIndex()].PlayTimeMinutes"></label>
+            <input class="form-control" asp-for="Episodes[GetNewIndex()].PlayTimeMinutes" />
+            <span class="text-danger" asp-validation-for="Episodes[GetNewIndex()].PlayTimeMinutes"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episodes[GetNewIndex()].ReleaseDate"></label>
+            <input class="form-control" asp-for="Episodes[GetNewIndex()].ReleaseDate" />
+            <span class="text-danger" asp-validation-for="Episodes[GetNewIndex()].ReleaseDate"></span>
+        </div>
+        <button id="AddEpisodeButton" class="btn btn-primary" type="submit">Save Episode</button>
+    </form>
+
+    
+    <button id="SeasonFormButton" class="btn btn-primary" type="button" onclick="CancelCreateSeason()" style="display:none;">Cancel Add Episode</button>
+</div>
+
+<button class="btn btn-primary SeasonFormHide" type="button" onclick="ShowCreateSeason()">Add Episode</button>
+
+@foreach (var season in Model.Seasons)
+{
+    <a asp-controller="Season" asp-action="View" asp-route-SeriesId="@Model.SeriesId" asp-route-SeasonId="@season.Id">Season @season.SeasonNumber (@GetYears(season.StartDate, season.EndDate)) episodes: @season.Episodes</a>
+}
+
+@functions{
+    string GetYears(DateTime startDate, DateTime endDate)
+    {
+        if (startDate.Year == endDate.Year)
+        {
+            return startDate.Year.ToString();
+        }
+
+        return startDate.Year + " - " + endDate.Year;
+    }
+
+    string GetPlayTime(TimeSpan playTime)
+    {
+        string time = playTime.Hours + ":";
+
+        if (playTime.Minutes.ToString().Length == 1)
+        {
+            time += "0" + playTime.Minutes;
+        }
+        else
+        {
+            time += playTime.Minutes;
+        }
+
+        return time;
+    }
+
+    int GetNewIndex()
+    {
+        return Model.Episodes.Max(a => a.EpisodeNumber);
+    }
+}

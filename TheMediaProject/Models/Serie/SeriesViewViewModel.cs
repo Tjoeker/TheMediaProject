@@ -21,5 +21,6 @@ namespace TheMediaProject.Models.Serie
         public string DirectorsString { get; set; }
         public List<MovieGenreViewModel> GenreNames { get; set; }
         public List<MovieArtistListViewModel> CrewMemberNames { get; set; }
+        public List<SeasonViewModel> Seasons { get; set; } = new List<SeasonViewModel>();
     }
 }

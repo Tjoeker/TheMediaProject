@@ -98,3 +98,23 @@
     <button class="btn btn-primary" type="button" onclick="cancelActors()">Cancel</button>
 </form>
 
+@if (Model.Seasons != null)
+{
+    foreach (var season in Model.Seasons)
+    {
+        <a asp-controller="Season" asp-action="View" asp-route-SeriesId="@Model.Id" asp-route-SeasonId="@season.Id">Season @season.SeasonNumber (@GetYears(season.StartDate, season.EndDate)) episodes: @season.Episodes</a>
+    }
+}
+
+
+@functions{
+    string GetYears(DateTime startDate, DateTime endDate)
+    {
+        if(startDate.Year == endDate.Year)
+        {
+            return startDate.Year.ToString();
+        }
+
+        return startDate.Year + " - " + endDate.Year;
+    }
+}
