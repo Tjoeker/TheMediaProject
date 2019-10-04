@@ -1,4 +1,4 @@
-﻿var index = 2;
+﻿var index = 1;
 
 function AddEpisode() {
     var x = document.getElementById("AddEpisodeButton");

@@ -14,11 +14,9 @@ namespace TheMediaProject.Models.Serie
         public string Genre { get; set; }
         public string Actors { get; set; }
         public string Directors { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
         public byte[] Photo { get; set; }
         public List<MovieArtistListViewModel> artistNames { get; set; }
         public List<MovieGenreViewModel> genreNames { get; set; }
-        public List<EpisodeCreateViewModel> Episodes { get; set; }
+        public List<EpisodeCreateViewModel> Episodes { get; set; } = new List<EpisodeCreateViewModel>();
     }
 }

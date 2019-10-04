@@ -90,7 +90,8 @@ namespace TheMediaProject.Controllers.Serie
 
             model.artistNames = crewMembersList;
 
-            model.ReleaseDate = DateTime.Now;
+            model.Episodes.Add(new EpisodeCreateViewModel());
+            model.Episodes[0].ReleaseDate = DateTime.Now;
 
             return View(model);
         }
@@ -201,27 +202,34 @@ namespace TheMediaProject.Controllers.Serie
 
             _database.SaveChanges();
 
-            Season season = new Season
+            if(model.Episodes[0].Title != null)
             {
-                SeriesId = series.Id,
-                SeasonNumber = 1
-            };
+                series.ReleaseDate = model.Episodes[0].ReleaseDate;
 
-            _database.SaveChanges();
-
-            foreach(var episodeItem in model.Episodes)
-            {
-                Episode episode = new Episode
+                Season season = new Season
                 {
-                    Title = episodeItem.Title,
-                    Description = episodeItem.Description,
-                    ReleaseDate = episodeItem.ReleaseDate,
-                    SeasonId = season.Id,
-                    PlayTime = new TimeSpan(episodeItem.PlayTimeHours, episodeItem.PlayTimeMinutes,0)
+                    SeriesId = series.Id,
+                    SeasonNumber = 1
                 };
 
                 _database.SaveChanges();
+
+                foreach (var episodeItem in model.Episodes)
+                {
+                    Episode episode = new Episode
+                    {
+                        Title = episodeItem.Title,
+                        Description = episodeItem.Description,
+                        ReleaseDate = episodeItem.ReleaseDate,
+                        SeasonId = season.Id,
+                        PlayTime = new TimeSpan(episodeItem.PlayTimeHours, episodeItem.PlayTimeMinutes, 0)
+                    };
+
+                    _database.SaveChanges();
+                }
             }
+
+            
 
             return RedirectToAction("Index");
         }
