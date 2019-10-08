@@ -1,0 +1,38 @@
+﻿<script src="~/js/Series.js"></script>
+
+@model TheMediaProject.Models.Serie.AddSeasonViewModel
+
+<form asp-controller="Series" asp-action="AddSeason" asp-route-SeriesId="@Model.SeriesId" enctype="multipart/form-data" method="post">
+
+    <h2>Episodes</h2>
+
+        <h3>Episode 1</h3>
+        <div class="form-group">
+            <label asp-for="Episode.Title"></label>
+            <input class="form-control" asp-for="Episode.Title" />
+            <span class="text-danger" asp-validation-for="Episode.Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episode.Description"></label>
+            <input class="form-control" asp-for="Episode.Description" />
+            <span class="text-danger" asp-validation-for="Episode.Description"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episode.PlayTimeHours"></label>
+            <input class="form-control" asp-for="Episode.PlayTimeHours" />
+            <span class="text-danger" asp-validation-for="Episode.PlayTimeHours"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episode.PlayTimeMinutes"></label>
+            <input class="form-control" asp-for="Episode.PlayTimeMinutes" />
+            <span class="text-danger" asp-validation-for="Episode.PlayTimeMinutes"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Episode.ReleaseDate"></label>
+            <input class="form-control" asp-for="Episode.ReleaseDate" />
+            <span class="text-danger" asp-validation-for="Episode.ReleaseDate"></span>
+        </div>
+   
+
+    <button class="btn btn-primary" type="submit">Add Season</button>
+</form>

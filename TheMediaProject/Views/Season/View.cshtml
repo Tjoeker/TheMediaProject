@@ -50,16 +50,19 @@
         <button id="AddEpisodeButton" class="btn btn-primary" type="submit">Save Episode</button>
     </form>
 
-    
+
     <button id="SeasonFormButton" class="btn btn-primary" type="button" onclick="CancelCreateSeason()" style="display:none;">Cancel Add Episode</button>
 </div>
 
 <button class="btn btn-primary SeasonFormHide" type="button" onclick="ShowCreateSeason()">Add Episode</button>
 
+
 @foreach (var season in Model.Seasons)
 {
     <a asp-controller="Season" asp-action="View" asp-route-SeriesId="@Model.SeriesId" asp-route-SeasonId="@season.Id">Season @season.SeasonNumber (@GetYears(season.StartDate, season.EndDate)) episodes: @season.Episodes</a>
 }
+
+
 
 @functions{
     string GetYears(DateTime startDate, DateTime endDate)

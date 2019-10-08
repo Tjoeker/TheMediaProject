@@ -333,5 +333,55 @@ namespace TheMediaProject.Controllers.Serie
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult AddSeason(int seriesId)
+        {
+            AddSeasonViewModel season = new AddSeasonViewModel();
+
+            season.SeriesId = seriesId;
+
+            return View(season);
+        }
+
+        [HttpPost]
+        public IActionResult AddSeason(AddSeasonViewModel seasonVM, int seriesId)
+        {
+            Series series = _database.Series.FirstOrDefault(a => a.Id == seriesId);
+
+            int seasonNumber = 0;
+
+            if(series.Seasons != null)
+            {
+                seasonNumber = series.Seasons.Count() + 1;
+            }
+            else
+            {
+                seasonNumber = 1;
+            }
+            
+
+            Season season = new Season
+            {
+                SeasonNumber = seasonNumber,
+                SeriesId = seriesId
+            };
+
+            _database.Seasons.Add(season);
+            _database.SaveChanges();
+
+            Episode episode = new Episode
+            {
+                Title = seasonVM.Episode.Title,
+                Description = seasonVM.Episode.Description,
+                ReleaseDate = seasonVM.Episode.ReleaseDate,
+                SeasonId = season.Id,
+                PlayTime = new TimeSpan(seasonVM.Episode.PlayTimeHours, seasonVM.Episode.PlayTimeMinutes, 0)
+            };
+
+            _database.Episodes.Add(episode);
+            _database.SaveChanges();
+
+            return RedirectToAction("View","Season", new { SeriesId = seriesId, SeasonId = season.Id });
+        }
     }
 }
