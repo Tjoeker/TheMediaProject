@@ -348,17 +348,7 @@ namespace TheMediaProject.Controllers.Serie
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == seriesId);
 
-            int seasonNumber = 0;
-
-            if(series.Seasons != null)
-            {
-                seasonNumber = series.Seasons.Count() + 1;
-            }
-            else
-            {
-                seasonNumber = 1;
-            }
-            
+            int seasonNumber = _database.Seasons.Where(a => a.SeriesId == seriesId).Count() + 1;
 
             Season season = new Season
             {

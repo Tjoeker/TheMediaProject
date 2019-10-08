@@ -10,7 +10,7 @@
         {
             <tr>
                 <td>
-                    <h3><a asp-action="View" asp-controller="Series" asp-route-id="@serie.Id">@serie.Title (@serie.ReleaseDate.Year)</a></h3>
+                    <h3><a asp-action="View" asp-controller="Series" asp-route-id="@serie.Id">@serie.Title (@GetYear(serie.ReleaseDate.Year))</a></h3>
                 </td>
                 <td>
                     <a asp-action="Delete" asp-controller="Series" asp-route-id="@serie.Id">Delete</a>
@@ -34,3 +34,15 @@
         <p>Er zijn geen series beschikbaar.</p>
     }
 </table>
+
+@functions{
+    string GetYear(int year)
+    {
+        if(year == 1)
+        {
+            return "TBA";
+        }
+
+        return Convert.ToString(year);
+    }
+}

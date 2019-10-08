@@ -3,7 +3,7 @@
 
 @model TheMediaProject.Models.Serie.SeasonDetailViewModel
 
-<h2>@Model.SeriesTitle - Season @Model.SeasonNumber (@GetYears(Model.Seasons.First(a => a.Id == Model.SeasonId).StartDate, Model.Seasons.First(a => a.Id == Model.SeasonId).EndDate))</h2>
+<h2><a asp-controller="series" asp-action="View" asp-route-Id="@Model.SeriesId">@Model.SeriesTitle</a> - Season @Model.SeasonNumber (@GetYears(Model.Seasons.First(a => a.Id == Model.SeasonId).StartDate, Model.Seasons.First(a => a.Id == Model.SeasonId).EndDate))</h2>
 
 @foreach (var episode in @Model.Episodes)
 {
@@ -59,7 +59,7 @@
 
 @foreach (var season in Model.Seasons)
 {
-    <a asp-controller="Season" asp-action="View" asp-route-SeriesId="@Model.SeriesId" asp-route-SeasonId="@season.Id">Season @season.SeasonNumber (@GetYears(season.StartDate, season.EndDate)) episodes: @season.Episodes</a>
+    <a asp-controller="Season" asp-action="View" asp-route-SeriesId="@Model.SeriesId" asp-route-SeasonId="@season.Id" style="display:block;">Season @season.SeasonNumber (@GetYears(season.StartDate, season.EndDate)) episodes: @season.Episodes</a>
 }
 
 
