@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace TheMediaProject.Models.Movies
         public int PlayTimeMinutes { get; set; }
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
-        public byte[] Photo { get; set; }
+        public IFormFile Photo { get; set; }
         public List<MovieArtistListViewModel> artistNames { get; set; }
         public List<MovieGenreViewModel> genreNames { get; set; }
     }

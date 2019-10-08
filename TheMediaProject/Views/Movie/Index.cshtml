@@ -12,6 +12,12 @@
         {
             <tr>
                 <td>
+                    @if (movie.Photo != null)
+                    {
+                        <img src="data:image;base64,@System.Convert.ToBase64String(movie.Photo)" style="width:400px;" />
+                    }
+                </td>
+                <td>
                     <h3><a asp-action="View" asp-controller="Movie" asp-route-id="@movie.Id">@movie.Title (@movie.ReleaseDate.Year)</a>  - @GetPlayTime(movie) </h3>
                 </td>
                 <td>

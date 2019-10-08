@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TheMediaProject.Data;
@@ -25,7 +26,7 @@ namespace TheMediaProject.Controllers.Movies
             _database = database;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             MovieIndexViewModel model = new MovieIndexViewModel();
 
@@ -51,7 +52,7 @@ namespace TheMediaProject.Controllers.Movies
                     genres.Add(genre.Name);
                 }
 
-                model.MovieListItems.Add(new MovieListItemViewModel
+                var item = new MovieListItemViewModel
                 {
                     Id = movie.Id,
                     Title = movie.Title,
@@ -60,7 +61,9 @@ namespace TheMediaProject.Controllers.Movies
                     Genre = genres,
                     Description = movie.Description,
                     Photo = movie.Photo
-                });
+                };
+
+                model.MovieListItems.Add(item);
 
             }
 
@@ -95,7 +98,7 @@ namespace TheMediaProject.Controllers.Movies
         }
 
         [HttpPost]
-        public IActionResult Create(MovieCreateViewModel model)
+        public async Task<IActionResult> Create(MovieCreateViewModel model)
         {
             if (!TryValidateModel(model))
             {
@@ -106,15 +109,23 @@ namespace TheMediaProject.Controllers.Movies
             {
                 Title = model.Title,
                 Description = model.Description,
-                PlayTime = new TimeSpan(model.PlayTimeHours,model.PlayTimeMinutes,0),
-                ReleaseDate = model.ReleaseDate,
-                Photo = model.Photo
+                PlayTime = new TimeSpan(model.PlayTimeHours, model.PlayTimeMinutes, 0),
+                ReleaseDate = model.ReleaseDate
             };
+            using (var memoryStream = new MemoryStream())
+            {
+                try
+                {
+                    await model.Photo.CopyToAsync(memoryStream);
+                }
+                catch { }
 
-            _database.Movies.Add(movie);
-            _database.SaveChanges();
+                movie.Photo = memoryStream.ToArray();
 
-            if(model.Genre != null)
+                _database.Movies.Add(movie);
+                _database.SaveChanges();
+            }
+            if (model.Genre != null)
             {
                 string[] genres = model.Genre.Split(",");
 
@@ -124,11 +135,10 @@ namespace TheMediaProject.Controllers.Movies
                     _database.MovieGenreMovies.Add(new MovieGenreMovie { MovieGenreId = movieGenre.Id, MovieId = movie.Id });
                 }
             }
-            
 
             _database.SaveChanges();
 
-            if(model.Actors != null)
+            if (model.Actors != null)
             {
                 string[] actors = model.Actors.Split(",");
 
@@ -161,8 +171,8 @@ namespace TheMediaProject.Controllers.Movies
             }
 
             _database.SaveChanges();
-            
-            if(model.Directors != null)
+
+            if (model.Directors != null)
             {
                 string[] directors = model.Directors.Split(",");
 
@@ -198,10 +208,10 @@ namespace TheMediaProject.Controllers.Movies
                     }
 
 
-                    
+
                 }
             }
-            
+
 
             _database.SaveChanges();
 
