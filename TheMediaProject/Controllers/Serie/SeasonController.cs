@@ -14,10 +14,10 @@ namespace TheMediaProject.Controllers.Serie
     public class SeasonController : Controller
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SeriesController> _logger;
+        private readonly ILogger<SeasonController> _logger;
         private readonly ApplicationDbContext _database;
 
-        public SeasonController(IConfiguration configuration, ILogger<SeriesController> logger, ApplicationDbContext database)
+        public SeasonController(IConfiguration configuration, ILogger<SeasonController> logger, ApplicationDbContext database)
         {
             _configuration = configuration;
             _logger = logger;
