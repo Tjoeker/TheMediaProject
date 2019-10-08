@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using TheMediaProject.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace TheMediaProject
 {
@@ -48,6 +50,11 @@ namespace TheMediaProject
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
+            var supportedCultures = new[]
+            {
+                new CultureInfo("nl-BE")
+            };
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,6 +65,16 @@ namespace TheMediaProject
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("nl-BE"),
+                // Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                // UI strings that we have localized.
+                SupportedUICultures = supportedCultures
+            });
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
