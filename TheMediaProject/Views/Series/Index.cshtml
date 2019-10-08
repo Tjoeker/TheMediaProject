@@ -8,14 +8,20 @@
     {
         @foreach (var serie in Model.SeriesListItems)
         {
-            <tr>
-                <td>
-                    <h3><a asp-action="View" asp-controller="Series" asp-route-id="@serie.Id">@serie.Title (@GetYear(serie.ReleaseDate.Year))</a></h3>
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-controller="Series" asp-route-id="@serie.Id">Delete</a>
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @if (serie.Photo != null)
+            {
+                <img src="data:image;base64,@System.Convert.ToBase64String(serie.Photo)" style="width:300px;" />
+            }
+        </td>
+        <td>
+            <h3><a asp-action="View" asp-controller="Series" asp-route-id="@serie.Id">@serie.Title (@GetYear(serie.ReleaseDate.Year))</a></h3>
+        </td>
+        <td>
+            <a asp-action="Delete" asp-controller="Series" asp-route-id="@serie.Id">Delete</a>
+        </td>
+    </tr>
             <tr>
                 <td>
                     @foreach (var genre in serie.Genre)

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TheMediaProject.Data;
@@ -97,7 +98,7 @@ namespace TheMediaProject.Controllers.Serie
         }
 
         [HttpPost]
-        public IActionResult Create(SeriesCreateViewModel model)
+        public async Task<IActionResult> Create(SeriesCreateViewModel model)
         {
             if (!TryValidateModel(model))
             {
@@ -108,11 +109,20 @@ namespace TheMediaProject.Controllers.Serie
             {
                 Title = model.Title,
                 Description = model.Description,
-                Photo = model.Photo
             };
+            using (var memoryStream = new MemoryStream())
+            {
+                try
+                {
+                    await model.Photo.CopyToAsync(memoryStream);
+                }
+                catch { }
 
-            _database.Series.Add(series);
-            _database.SaveChanges();
+                series.Photo = memoryStream.ToArray();
+
+                _database.Series.Add(series);
+                _database.SaveChanges();
+            }
 
             if (model.Genre != null)
             {
@@ -277,7 +287,8 @@ namespace TheMediaProject.Controllers.Serie
                 ReleaseDate = series.ReleaseDate,
                 Genre = genreViewModels,
                 Actors = artistViewModels,
-                Directors = directorViewModels
+                Directors = directorViewModels,
+                Photo = series.Photo
             };
 
 

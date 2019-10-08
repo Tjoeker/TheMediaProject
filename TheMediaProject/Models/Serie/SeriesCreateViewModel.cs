@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace TheMediaProject.Models.Serie
         public string Genre { get; set; }
         public string Actors { get; set; }
         public string Directors { get; set; }
-        public byte[] Photo { get; set; }
+        public IFormFile Photo { get; set; }
         public List<MovieArtistListViewModel> artistNames { get; set; }
         public List<MovieGenreViewModel> genreNames { get; set; }
         public List<EpisodeCreateViewModel> Episodes { get; set; } = new List<EpisodeCreateViewModel>();

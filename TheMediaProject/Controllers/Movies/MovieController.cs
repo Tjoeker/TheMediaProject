@@ -26,7 +26,7 @@ namespace TheMediaProject.Controllers.Movies
             _database = database;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             MovieIndexViewModel model = new MovieIndexViewModel();
 
@@ -260,7 +260,8 @@ namespace TheMediaProject.Controllers.Movies
                 ReleaseDate = movie.ReleaseDate,
                 Genre = genreViewModels,
                 Actors = artistViewModels,
-                Directors = directorViewModels
+                Directors = directorViewModels,
+                Photo = movie.Photo
             };
 
 

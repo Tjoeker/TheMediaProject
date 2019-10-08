@@ -5,6 +5,11 @@
 
 <h2><a asp-controller="series" asp-action="View" asp-route-Id="@Model.SeriesId">@Model.SeriesTitle</a> - Season @Model.SeasonNumber (@GetYears(Model.Seasons.First(a => a.Id == Model.SeasonId).StartDate, Model.Seasons.First(a => a.Id == Model.SeasonId).EndDate))</h2>
 
+@if (Model.Photo != null)
+{
+    <img src="data:image;base64,@System.Convert.ToBase64String(Model.Photo)" style="width:300px;display:block;" />
+}
+
 @foreach (var episode in @Model.Episodes)
 {
     if (episode.EpisodeNumber != 0)

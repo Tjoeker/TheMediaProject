@@ -11,6 +11,12 @@
     <button class="btn btn-primary" type="button" onclick="cancelTitle()">Cancel</button>
 </form>
 
+@if (Model.Photo != null)
+{
+    <img src="data:image;base64,@System.Convert.ToBase64String(Model.Photo)" style="width:300px;display:block;" />
+}
+
+
 <strong>Description</strong>
 <p id="Description" onclick="editDescription()">@Model.Description</p>
 <form id="DescriptionForm" asp-controller="EditSeries" asp-action="EditDescription" asp-route-Id="@Model.Id" method="post" style="display:none;">
@@ -112,12 +118,12 @@
 @functions{
     string GetYears(DateTime startDate, DateTime endDate)
     {
-        if(startDate.Year == 1)
+        if (startDate.Year == 1)
         {
             return "TBA";
         }
 
-        if(startDate.Year == endDate.Year)
+        if (startDate.Year == endDate.Year)
         {
             return startDate.Year.ToString();
         }
@@ -127,7 +133,7 @@
 
     string GetInitialYear(DateTime ReleaseDate)
     {
-        if(ReleaseDate.Year == 1)
+        if (ReleaseDate.Year == 1)
         {
             return "TBA";
         }

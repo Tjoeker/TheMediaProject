@@ -10,6 +10,11 @@
     <button class="btn btn-primary" type="button" onclick="cancelTitle()">Cancel</button>
 </form>
 
+@if (Model.Photo != null)
+{
+    <img src="data:image;base64,@System.Convert.ToBase64String(Model.Photo)" style="width:300px;display:block;" />
+}
+
 <strong>Description</strong>
 <p id="Description" onclick="editDescription()">@Model.Description</p>
 <form id="DescriptionForm" asp-controller="EditMovie" asp-action="EditDescription" asp-route-Id="@Model.Id" method="post" style="display:none;">
@@ -107,21 +112,21 @@
 </form>
 
 
-    @functions{
-        string GetPlayTime()
+@functions{
+    string GetPlayTime()
+    {
+        string time = @Model.PlayTime.Hours + ":";
+
+        if (Model.PlayTime.Minutes.ToString().Length == 1)
         {
-            string time = @Model.PlayTime.Hours + ":";
-
-            if (Model.PlayTime.Minutes.ToString().Length == 1)
-            {
-                time += "0" + Model.PlayTime.Minutes;
-            }
-            else
-            {
-                time += Model.PlayTime.Minutes;
-            }
-
-            return time;
+            time += "0" + Model.PlayTime.Minutes;
+        }
+        else
+        {
+            time += Model.PlayTime.Minutes;
         }
 
+        return time;
     }
+
+}

@@ -36,7 +36,8 @@ namespace TheMediaProject.Controllers.Serie
                 SeriesTitle = series.Title,
                 SeasonId = seasonId,
                 SeriesId = seriesId,
-                SeasonNumber = season.SeasonNumber
+                SeasonNumber = season.SeasonNumber,
+                Photo = series.Photo
             };
 
             int episodenumber = 1;
