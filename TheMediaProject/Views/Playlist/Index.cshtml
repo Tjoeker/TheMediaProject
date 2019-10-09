@@ -1,0 +1,25 @@
+﻿<script src="~/js/Series.js"></script>
+
+@model TheMediaProject.Models.Playlist.PlaylistIndexViewModel
+
+<h2>My Playlists</h2>
+
+
+@foreach (var title in Model.Titles)
+{
+    <p>@title</p>
+}
+
+<form class="SeasonForm" style="display:none;" asp-controller="Playlist" asp-action="Index" enctype="multipart/form-data" method="post">
+    <div class="SeasonForm" style="display:none;">
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title" />
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Save Playlist</button>
+</form>
+
+<button class="btn btn-primary SeasonFormHide" type="button" onclick="ShowCreateSeason()">Create New Playlist</button>
+<button id="SeasonFormButton" class="btn btn-primary" type="button" onclick="CancelCreateSeason()" style="display:none;">Cancel Create Playlist</button>
