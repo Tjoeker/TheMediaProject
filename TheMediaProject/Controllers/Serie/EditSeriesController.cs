@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -25,6 +26,7 @@ namespace TheMediaProject.Controllers.Serie
             _database = database;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditTitle(int id, SeriesViewViewModel model)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == id);
@@ -36,6 +38,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("View", "Series", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditDescription(int id, SeriesViewViewModel model)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == id);
@@ -47,6 +50,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("View", "Series", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditReleaseDate(int id, SeriesViewViewModel model)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == id);
@@ -58,6 +62,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("View", "Series", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditGenre(int id, SeriesViewViewModel model)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == id);
@@ -84,6 +89,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("View", "Series", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditActors(int id, SeriesViewViewModel model)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == id);
@@ -147,6 +153,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("View", "Series", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditDirectors(int id, SeriesViewViewModel model)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == id);

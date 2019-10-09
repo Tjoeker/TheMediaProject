@@ -11,6 +11,6 @@ namespace TheMediaProject.Domain.Playlists
         public int PlaylistId { get; set; }
         public int MediaId { get; set; }
         public enum MediaType { Movie, Series}
-        public MediaType Type { get; set; }
+        public MediaType ItemType { get; set; }
     }
 }

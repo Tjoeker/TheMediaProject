@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -85,6 +86,7 @@ namespace TheMediaProject.Controllers.Serie
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult View(SeasonDetailViewModel episodeVM, int seriesId, int seasonId)
         {
             int index = episodeVM.Episodes.Count - 1;

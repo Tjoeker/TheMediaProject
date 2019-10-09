@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,6 +25,7 @@ namespace TheMediaProject.Controllers.Movies
             _database = database;
         }
 
+        [Authorize(Roles ="Admin")]
         public IActionResult EditTitle(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
@@ -35,6 +37,7 @@ namespace TheMediaProject.Controllers.Movies
             return RedirectToAction("View","Movie",new {Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditDescription(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
@@ -45,7 +48,7 @@ namespace TheMediaProject.Controllers.Movies
 
             return RedirectToAction("View", "Movie", new { Id = id });
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult EditPlayTime(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
@@ -61,6 +64,7 @@ namespace TheMediaProject.Controllers.Movies
             return RedirectToAction("View", "Movie", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditReleaseDate(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
@@ -72,6 +76,7 @@ namespace TheMediaProject.Controllers.Movies
             return RedirectToAction("View", "Movie", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditGenre(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
@@ -98,6 +103,7 @@ namespace TheMediaProject.Controllers.Movies
             return RedirectToAction("View", "Movie", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditActors(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);
@@ -161,6 +167,7 @@ namespace TheMediaProject.Controllers.Movies
             return RedirectToAction("View", "Movie", new { Id = id });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditDirectors(int id, MovieViewViewModel model)
         {
             Movie movie = _database.Movies.FirstOrDefault(a => a.Id == id);

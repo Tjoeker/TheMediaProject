@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -6,10 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TheMediaProject.Data;
 using TheMediaProject.Domain.Movies;
+using TheMediaProject.Domain.Playlists;
 using TheMediaProject.Models.Movies;
+using TheMediaProject.Models.Playlist;
 
 namespace TheMediaProject.Controllers.Movies
 {
@@ -70,6 +74,7 @@ namespace TheMediaProject.Controllers.Movies
             return View(model);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             MovieCreateViewModel model = new MovieCreateViewModel();
@@ -98,6 +103,7 @@ namespace TheMediaProject.Controllers.Movies
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(MovieCreateViewModel model)
         {
             if (!TryValidateModel(model))
@@ -251,6 +257,14 @@ namespace TheMediaProject.Controllers.Movies
                 directorViewModels.Add(new MovieArtistListViewModel { ArtistName = item.Name });
             }
 
+            List<Playlist> playlists = _database.Playlists.Where(a => a.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+            List<PlaylistListViewModel> playlistsLVM = new List<PlaylistListViewModel>();
+
+            foreach(var item in playlists)
+            {
+                playlistsLVM.Add(new PlaylistListViewModel { Title = item.Title, Id = item.PlaylistId });
+            }
+
             MovieViewViewModel model = new MovieViewViewModel()
             {
                 Id = movie.Id,
@@ -261,7 +275,8 @@ namespace TheMediaProject.Controllers.Movies
                 Genre = genreViewModels,
                 Actors = artistViewModels,
                 Directors = directorViewModels,
-                Photo = movie.Photo
+                Photo = movie.Photo,
+                Playlists = playlistsLVM
             };
 
 
@@ -287,6 +302,7 @@ namespace TheMediaProject.Controllers.Movies
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Movie movieFromDb = _database.Movies.First(a => a.Id == id);

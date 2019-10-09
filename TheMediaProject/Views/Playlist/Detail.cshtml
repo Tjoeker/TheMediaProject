@@ -1,0 +1,24 @@
+﻿@model TheMediaProject.Models.Playlist.PlaylistDetailViewModel
+
+<h2>@Model.Title</h2>
+<table>
+    @foreach (var item in Model.Movies)
+    {
+        <tr>
+            <td><a asp-action="View" asp-controller="Movie" asp-route-id="@item.Id">@item.Title</a> (@GetYear(item.ReleaseDate))</td>
+            <td><a asp-action="DeleteItem" asp-controller="Playlist" asp-route-id="@item.Id" asp-route-playlistId="@Model.PlaylistId">Delete</a></td>
+        </tr>
+    }
+</table>
+
+@functions{
+    string GetYear(DateTime ReleaseDate)
+    {
+        if (ReleaseDate.Year == 1)
+        {
+            return "TBA";
+        }
+
+        return ReleaseDate.ToShortDateString();
+    }
+}

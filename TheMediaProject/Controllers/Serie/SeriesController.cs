@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -69,6 +70,7 @@ namespace TheMediaProject.Controllers.Serie
             return View(model);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             SeriesCreateViewModel model = new SeriesCreateViewModel();
@@ -98,6 +100,7 @@ namespace TheMediaProject.Controllers.Serie
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(SeriesCreateViewModel model)
         {
             if (!TryValidateModel(model))
@@ -246,6 +249,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("Index");
         }
 
+
         public IActionResult View(int id)
         {
 
@@ -334,6 +338,7 @@ namespace TheMediaProject.Controllers.Serie
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Series seriesFromDb = _database.Series.First(a => a.Id == id);
@@ -345,6 +350,7 @@ namespace TheMediaProject.Controllers.Serie
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public IActionResult AddSeason(int seriesId)
         {
             AddSeasonViewModel season = new AddSeasonViewModel();
@@ -355,6 +361,7 @@ namespace TheMediaProject.Controllers.Serie
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddSeason(AddSeasonViewModel seasonVM, int seriesId)
         {
             Series series = _database.Series.FirstOrDefault(a => a.Id == seriesId);

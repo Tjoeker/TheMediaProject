@@ -4,11 +4,16 @@
 
 <h2>My Playlists</h2>
 
+<table>
+    @foreach (var playlist in Model.Playlists)
+    {
+        <tr>
+        <td><a asp-action="Detail" asp-controller="Playlist" asp-route-id="@playlist.Id">@playlist.Title</a></td>
+        <td><a asp-action="Delete" asp-controller="Playlist" asp-route-id="@playlist.Id">Delete</a></td>
+        </tr>
 
-@foreach (var title in Model.Titles)
-{
-    <p>@title</p>
-}
+    }
+</table>
 
 <form class="SeasonForm" style="display:none;" asp-controller="Playlist" asp-action="Index" enctype="multipart/form-data" method="post">
     <div class="SeasonForm" style="display:none;">

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace TheMediaProject.Models.Playlist
 {
-    public class PlaylistIndexViewModel
+    public class PlaylistListViewModel
     {
-        public List<PlaylistListViewModel> Playlists { get; set; } = new List<PlaylistListViewModel>();
         public string Title { get; set; }
+        public int Id { get; set; }
     }
 }

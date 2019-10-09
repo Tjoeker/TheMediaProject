@@ -186,3 +186,30 @@ function saveDirectors() {
     var y = document.getElementById("DirectorsForm");
     y.style.display = "none";
 }
+
+//Playlist
+function addToPlaylist() {
+    var x = document.getElementById("Playlist");
+    x.style.display = "none";
+
+    var y = document.getElementById("PlaylistForm");
+    y.style.display = "block";
+
+    $('#PlaylistsValue').val(document.getElementById("Playlist").innerHTML);
+}
+
+function cancelPlaylist() {
+    var x = document.getElementById("Playlist");
+    x.style.display = "block";
+
+    var y = document.getElementById("PlaylistForm");
+    y.style.display = "none";
+}
+
+function savePlaylist() {
+    var x = document.getElementById("Playlist");
+    x.style.display = "block";
+
+    var y = document.getElementById("PlaylistForm");
+    y.style.display = "none";
+}

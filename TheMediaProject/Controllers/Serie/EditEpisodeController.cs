@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,6 +25,7 @@ namespace TheMediaProject.Controllers.Serie
             _database = database;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult EditTitle(int episodeId, int seasonId, EpisodeViewModel model)
         {
             Episode episode = _database.Episodes.FirstOrDefault(a => a.Id == episodeId);
