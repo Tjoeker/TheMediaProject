@@ -7,6 +7,7 @@ using Microsoft.SqlServer.Server;
 using TheMediaProject.Domain.Movies;
 using TheMediaProject.Domain.Movies.Serie;
 using TheMediaProject.Domain.Music;
+using TheMediaProject.Domain.Playlists;
 using TheMediaProject.Domain.Podcasts;
 
 namespace TheMediaProject.Data
@@ -41,6 +42,9 @@ namespace TheMediaProject.Data
         public DbSet<PodcastPerson> PodcastPeople { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<PodcastPersonPodcast> PodcastHosts { get; set; }
+
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<PlaylistItem> PlaylistItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

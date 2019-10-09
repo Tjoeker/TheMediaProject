@@ -7,6 +7,7 @@ namespace TheMediaProject.Domain.Playlists
 {
     public class PlaylistItem
     {
+        public int Id { get; set; }
         public int PlaylistId { get; set; }
         public int MediaId { get; set; }
         public enum MediaType { Movie, Series}
